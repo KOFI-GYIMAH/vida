@@ -1,0 +1,68 @@
+<div class="mb-8">
+  <h2 class="text-2xl font-semibold">Incoming Requests</h2>
+</div>
+
+<div
+  class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-x-5 gap-y-10"
+>
+  <div
+    *ngFor="let doctor of [1, 2, 3, 4, 5, 6, 7]"
+    class="card flex justify-content-center"
+  >
+    <div
+      class="box-shadow p-5 flex justify-center items-center rounded-xl w-full"
+    >
+      <div class="w-full max-w-md">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <img
+              src="https://www.gravatar.com/avatar/2c7d99fe281ecd3bcd65ab915bac6dd5?s=250"
+              width="100"
+              class="rounded-full mb-3"
+            />
+            <h3 class="text-md font-semibold">Dr. Moses Akwasi Agyemang</h3>
+          </div>
+          <div class="flex gap-2">
+            <button
+              type="button"
+              class="border-none py-1 px-2 rounded-md bg-[#CAF1D8] text-[#188A42]"
+              pTooltip="Accept Request"
+            >
+              <i class="pi pi-check-circle"></i>
+            </button>
+            <button
+              type="button"
+              class="py-1 px-2 rounded-md bg-[#FFD0CE] text-[#B32B23] border-none"
+              pTooltip="Reject Request"
+            >
+              <i class="pi pi-times-circle"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="bg-[#F2F3F5] p-4 rounded-lg w-full">
+          <div class="flex justify-between gap-5 mb-3">
+            <div>
+              <p class="text-gray-500 text-sm">License Id</p>
+              <p class="text-sm">HS7-3ND9-34</p>
+            </div>
+            <div>
+              <p class="text-gray-500 text-sm">Date Applied</p>
+              <p class="text-sm">12 Jun 2024</p>
+            </div>
+          </div>
+          <div class="text-gray-500">
+            <p>
+              <i class="pi pi-envelope mr-1 text-[0.7rem]"></i>
+              <span>moses#gmail.com</span>
+            </p>
+            <p>
+              <i class="pi pi-phone mr-1 text-[0.7rem]"></i>
+              <span>+233 435 35 234545</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

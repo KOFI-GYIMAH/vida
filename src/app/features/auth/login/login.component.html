@@ -1,0 +1,53 @@
+<h2 class="text-2xl font-semibold text-gray-900 mb-2">Get started</h2>
+<p class="text-gray-600 mb-8">Create your account now</p>
+
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-6">
+  <div>
+    <input
+      type="email"
+      pInputText
+      formControlName="email"
+      class="w-full"
+      placeholder="Email Address"
+    />
+  </div>
+  <div class="w-full">
+    <p-password
+      id="password"
+      formControlName="password"
+      [style]="{ width: '100%' }"
+      [inputStyle]="{
+              width: '100%',
+            }"
+      [toggleMask]="true"
+      placeholder="Password"
+      [feedback]="false"
+    />
+  </div>
+  <div class="flex justify-between">
+    <div></div>
+    <a
+      [routerLink]="['/reset-password-link']"
+      class="text-[#0A3CB3] hover:underline text-sm font-semibold"
+    >
+      Forgot Password?
+    </a>
+  </div>
+
+  <div class="flex justify-center">
+    <p-button
+      type="submit"
+      label="Login"
+      [loading]="loading"
+      styleClass="bg-[#083CB3] border-none py-2 px-14"
+      [disabled]="!loginForm.valid"
+    />
+  </div>
+</form>
+
+<p class="text-center text-gray-600 mt-8">
+  Don't have an account?
+  <a [routerLink]="['/register']" class="text-[#0A3CB3] hover:underline">
+    Register
+  </a>
+</p>

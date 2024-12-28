@@ -1,0 +1,250 @@
+<div>
+  <form
+    class="flex w-full justify-center"
+    [formGroup]="addPatientForm"
+    (ngSubmit)="onSubmit()"
+  >
+    <div class="w-full max-w-[500px]">
+      <!-- Step 1 -->
+      <div *ngIf="currentStep === 1">
+        <h3 class="text-md font-bold text-gray-900 my-5">
+          Personal Information
+        </h3>
+      </div>
+      <div *ngIf="currentStep === 1" class="space-y-10">
+        <div class="card flex justify-content-center">
+          <input
+            type="text"
+            pInputText
+            formControlName="lastName"
+            class="w-full"
+            placeholder="Last Name"
+          />
+        </div>
+        <div class="card flex justify-content-center">
+          <input
+            type="text"
+            pInputText
+            formControlName="firstName"
+            class="w-full"
+            placeholder="First Name"
+          />
+        </div>
+        <div class="card flex justify-content-center">
+          <p-calendar
+            formControlName="dob"
+            [showIcon]="true"
+            inputId="icondisplay"
+            [iconDisplay]="'input'"
+            class="w-full"
+            [style]="{ width: '100%' }"
+            placeholder="Date of Birth"
+          />
+        </div>
+        <div class="card flex justify-content-center">
+          <p-dropdown
+            formControlName="gender"
+            [options]="genderOptions"
+            optionLabel="name"
+            placeholder="Select a Gender"
+            class="w-full"
+            [style]="{ width: '100%' }"
+          />
+        </div>
+        <div class="card flex justify-content-center">
+          <p-inputMask
+            mask="(233) 999-999-999"
+            formControlName="phoneNumber"
+            placeholder="(233) 999-999-999"
+            class="w-full"
+            [style]="{ width: '100%' }"
+          />
+        </div>
+        <div class="card flex justify-content-center">
+          <input
+            type="email"
+            pInputText
+            formControlName="email"
+            class="w-full"
+            placeholder="Email Address"
+          />
+        </div>
+        <div class="flex justify-center">
+          <p-button
+            type="button"
+            label="Next"
+            styleClass="bg-[#083CB3] border-none"
+            icon="pi pi-arrow-right"
+            iconPos="right"
+            (onClick)="nextStep()"
+          />
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div *ngIf="currentStep === 2">
+        <h3 class="text-md font-bold text-gray-900 my-5">Medical Record</h3>
+      </div>
+      <div *ngIf="currentStep === 2" class="space-y-10">
+        <div class="card flex justify-content-center">
+          <input
+            type="text"
+            pInputText
+            formControlName="insuranceProvider"
+            class="w-full"
+            placeholder="Insurance Provider"
+          />
+        </div>
+        <div class="card flex justify-content-center">
+          <input
+            type="text"
+            pInputText
+            formControlName="insuranceNumber"
+            class="w-full"
+            placeholder="Insurance Number"
+          />
+        </div>
+        <div class="card flex justify-content-center">
+          <p-calendar
+            formControlName="insuranceStartDate"
+            [showIcon]="true"
+            inputId="icondisplay"
+            [iconDisplay]="'input'"
+            class="w-full"
+            [style]="{ width: '100%' }"
+            placeholder="Insurance Start Date"
+          />
+        </div>
+        <div class="card flex justify-content-center">
+          <p-calendar
+            formControlName="insuranceEndDate"
+            [showIcon]="true"
+            inputId="icondisplay"
+            [iconDisplay]="'input'"
+            class="w-full"
+            [style]="{ width: '100%' }"
+            placeholder="Insurance End Date"
+          />
+        </div>
+        <div class="card flex justify-content-center">
+          <p-dropdown
+            formControlName="diabeticStatus"
+            [options]="diabeticStatusOptions"
+            optionLabel="name"
+            placeholder="Diabetic Status"
+            class="w-full"
+            [style]="{ width: '100%' }"
+          />
+        </div>
+        <div class="flex justify-center gap-14">
+          <p-button
+            type="button"
+            label="Back"
+            styleClass="outline outline-[#083CB3] bg-transparent text-[#083CB3] border-none"
+            icon="pi pi-arrow-left"
+            iconPos="left"
+            (onClick)="previousStep()"
+          />
+          <p-button
+            type="button"
+            label="Next"
+            styleClass="bg-[#083CB3] border-none"
+            icon="pi pi-arrow-right"
+            iconPos="right"
+            (onClick)="nextStep()"
+          />
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div *ngIf="currentStep === 3">
+        <h3 class="text-md font-bold text-gray-900 my-5">Medical Record</h3>
+      </div>
+      <div *ngIf="currentStep === 3" class="space-y-10">
+        <div class="card flex justify-content-center">
+          <input
+            type="text"
+            pInputText
+            formControlName="diabeticType"
+            class="w-full"
+            placeholder="Diabetic Type"
+          />
+        </div>
+        <div class="card flex justify-content-center">
+          <p-calendar
+            formControlName="diabeticDiagnoseDate"
+            [showIcon]="true"
+            inputId="icondisplay"
+            [iconDisplay]="'input'"
+            class="w-full"
+            [style]="{ width: '100%' }"
+            placeholder="Diabetic Diagnose Date"
+          />
+        </div>
+        <div class="card flex justify-content-center">
+          <input
+            type="text"
+            pInputText
+            formControlName="currentRegimen"
+            class="w-full"
+            placeholder="Current Regimen"
+          />
+        </div>
+        <div class="card flex justify-content-center">
+          <input
+            type="text"
+            pInputText
+            formControlName="diabeticFamilyHistory"
+            class="w-full"
+            placeholder="Diabetic Family History"
+          />
+        </div>
+        <div class="card flex justify-content-center">
+          <input
+            type="text"
+            pInputText
+            formControlName="partEyeCondition"
+            class="w-full"
+            placeholder="Past Eye Condition"
+          />
+        </div>
+        <div class="card flex justify-content-center">
+          <input
+            type="text"
+            pInputText
+            formControlName="partEyeConditionStatement"
+            class="w-full"
+            placeholder="Past Eye Condition Statement"
+          />
+        </div>
+        <div class="card flex justify-content-center">
+          <input
+            type="text"
+            pInputText
+            formControlName="otherMedicalConditions"
+            class="w-full"
+            placeholder="Other Medical Conditions"
+          />
+        </div>
+        <div class="flex justify-center gap-14">
+          <p-button
+            type="button"
+            label="Back"
+            styleClass="outline outline-[#083CB3] bg-transparent text-[#083CB3] border-none"
+            icon="pi pi-arrow-left"
+            iconPos="left"
+            (onClick)="previousStep()"
+          />
+          <p-button
+            type="submit"
+            label="Save"
+            styleClass="bg-[#083CB3] border-none"
+            icon="pi pi-save"
+            iconPos="right"
+            [loading]="loading"
+          />
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

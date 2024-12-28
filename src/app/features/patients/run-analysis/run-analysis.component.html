@@ -1,0 +1,198 @@
+<p-dialog
+  header="Upload Retina Images"
+  [modal]="true"
+  [(visible)]="visible"
+  [style]="{ width: '50%' }"
+>
+  <div class="flex border-b mb-4">
+    <button
+      *ngFor="let tab of tabs; let i = index"
+      (click)="setActiveTab(i)"
+      class="py-2 px-4"
+      [ngClass]="{
+        'text-blue-600 border-b-2 border-blue-600': activeTab === tab.label,
+        'text-gray-500': activeTab !== tab.label
+      }"
+    >
+      {{ tab.label }}
+    </button>
+  </div>
+
+  <div
+    class="border-2 border-dashed border-gray-300 rounded-lg px-4 py-7 text-center"
+  >
+    <img
+      src="/assets/upload.png"
+      class="h-24 w-full object-contain mb-2"
+      alt="Upload icon"
+    />
+    <p class="text-gray-600 font-bold">Drag and drop image files to upload</p>
+    <p class="text-gray-500">Select retina part in the selection below.</p>
+
+    <label
+      class="mt-4 inline-flex px-4 py-2 text-gray-500 border font-semibold rounded cursor-pointer"
+    >
+      Select files
+      <input
+        type="file"
+        multiple
+        (change)="onFileSelect($event)"
+        class="hidden"
+      />
+    </label>
+  </div>
+
+  <div class="mt-6 space-y-4" *ngIf="activeTab === 'Left Eye'">
+    <div
+      *ngFor="let file of leftEyeFiles; let i = index"
+      class="flex flex-col gap-3 p-4 border rounded-lg"
+    >
+      <div class="flex items-center gap-5">
+        <img
+          [src]="file.preview"
+          class="h-16 object-contain rounded-md"
+          alt="Uploaded retina image preview"
+        />
+        <div class="w-full">
+          <div class="flex items-center justify-between">
+            <span class="text-gray-700 text-sm mb-2">{{ file.name }}</span>
+            <button (click)="removeFile(true, i)" class="text-red-500 text-sm">
+              Remove
+            </button>
+          </div>
+          <div class="w-full bg-gray-200 rounded-full h-2">
+            <div
+              class="h-2 rounded-full"
+              [ngClass]="{
+                'bg-green-600': file.progress === 100,
+                'bg-yellow-500': file.isAnalyzing,
+                'bg-red-500': file.progress === 0 && !file.isAnalyzing
+              }"
+              [style.width.%]="file.progress"
+            ></div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="file.analysisResult" class="mt-3 p-3 bg-gray-100 rounded-lg">
+        <h3 class="font-semibold mb-2">Analysis Result</h3>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <strong>Confidence:</strong> {{ file.analysisResult.confidence }}%
+          </div>
+          <div>
+            <strong>Diagnosis:</strong> {{ file.analysisResult.inferenceResult }}
+          </div>
+          <div class="col-span-2">
+            <strong>Recommended Action:</strong>
+            <!-- {{ file.analysisResult.recommendedAction }} -->
+          </div>
+        </div>
+
+        <div class="mt-3">
+          <label class="block text-sm font-medium text-gray-700">
+            Doctor's Note
+          </label>
+          <textarea
+            [(ngModel)]="file.analysisResult.doctorNote"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            rows="3"
+            placeholder="Enter additional notes..."
+          ></textarea>
+          <button
+            (click)="saveAnalysisNote(file)"
+            class="mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          >
+            Save Note
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-6 space-y-4" *ngIf="activeTab === 'Right Eye'">
+    <div
+      *ngFor="let file of rightEyeFiles; let i = index"
+      class="flex flex-col gap-3 p-4 border rounded-lg"
+    >
+      <div class="flex items-center gap-5">
+        <img
+          [src]="file.preview"
+          class="h-16 object-contain rounded-md"
+          alt="Uploaded retina image preview"
+        />
+        <div class="w-full">
+          <div class="flex items-center justify-between">
+            <span class="text-gray-700 text-sm mb-2">{{ file.name }}</span>
+            <button (click)="removeFile(false, i)" class="text-red-500 text-sm">
+              Remove
+            </button>
+          </div>
+          <div class="w-full bg-gray-200 rounded-full h-2">
+            <div
+              class="h-2 rounded-full"
+              [ngClass]="{
+                'bg-blue-600': file.progress === 100,
+                'bg-yellow-500': file.isAnalyzing,
+                'bg-red-500': file.progress === 0 && !file.isAnalyzing
+              }"
+              [style.width.%]="file.progress"
+            ></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Analysis Result Section (same as Left Eye) -->
+      <div *ngIf="file.analysisResult" class="mt-3 p-3 bg-gray-100 rounded-lg">
+                <h3 class="font-semibold mb-2">Analysis Result</h3>
+                {{file | json}}
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <strong>Confidence:</strong> {{ file.analysisResult.confidence }}%
+          </div>
+          <div>
+            <strong>Diagnosis:</strong> {{ file.analysisResult.inferenceResult }}
+          </div>
+          <div class="col-span-2">
+            <strong>Recommended Action:</strong>
+            <!-- {{ file.analysisResult.recommendedAction }} -->
+          </div>
+        </div>
+
+        <div class="mt-3">
+          <label class="block text-sm font-medium text-gray-700">
+            Doctor's Note
+          </label>
+          <textarea
+            [(ngModel)]="file.analysisResult.doctorNote"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            rows="3"
+            placeholder="Enter additional notes..."
+          ></textarea>
+          <button
+            (click)="saveAnalysisNote(file)"
+            class="mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          >
+            Save Note
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-10 flex justify-end gap-5">
+    <button
+      (click)="discardAll()"
+      class="px-4 py-2 text-gray-600 bg-gray-100 rounded"
+    >
+      Discard All
+    </button>
+    <button
+      (click)="runAnalysis()"
+      class="px-4 py-2 bg-blue-600 text-white rounded"
+      [disabled]="leftEyeFiles.length === 0 && rightEyeFiles.length === 0"
+    >
+      Run Analysis
+    </button>
+  </div>
+</p-dialog>

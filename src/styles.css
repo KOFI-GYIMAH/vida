@@ -1,0 +1,52 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
+
+@layer tailwind-base, primeng, tailwind-utilities;
+@layer tailwind-base {
+  @tailwind base;
+}
+@layer primeng;
+@layer tailwind-utilities {
+  @tailwind components;
+  @tailwind utilities;
+}
+
+* {
+  font-family: "Open Sans", sans-serif;
+}
+
+.p-inputtext {
+  background-color: #f3f4f7;
+  border: none;
+}
+
+.p-inputtext::placeholder {
+  color: #989595;
+}
+
+.active {
+  color: #0a3cb3;
+  font-weight: 600;
+}
+
+.box-shadow {
+  box-shadow: rgba(0, 0, 0, 0.09) 0px 3px 12px;
+}
+
+.p-sidebar {
+  background: #f2f3f5;
+}
+
+.p-paginator .p-paginator-pages .p-paginator-page {
+  border-radius: 10%;
+  height: 2rem;
+  min-width: 2rem;
+}
+
+.p-paginator {
+  justify-content: end;
+}
+
+.p-tag.p-tag-success {
+  color: #188A42;
+  background-color: #CAF1D8;
+}

@@ -1,0 +1,68 @@
+<div class="bg-[#F9F9F9] h-screen">
+  <div class="container mx-auto px-6 pt-5">
+    <div class="shadow-md rounded-3xl p-8 bg-[#EDEDED]">
+      <header class="py-4">
+        <div class="flex items-center justify-between space-x-2">
+          <h1 class="text-2xl font-bold">
+            VI<span class="text-blue-600">DA</span>
+          </h1>
+          <nav class="flex items-center space-x-4 text-sm text-gray-600">
+            <a href="#" class="hover:text-black">Technology</a>
+            <span>/</span>
+            <a href="#" class="hover:text-black">Product</a>
+            <span>/</span>
+            <a href="#" class="hover:text-black">Learn</a>
+            <span>/</span>
+            <div *ngIf="!isAuthenticated$">
+              <a [routerLink]="['login']" class="hover:text-black">Login</a>
+              <span class="mx-3">/</span>
+              <a
+                [routerLink]="['register']"
+                class="hover:text-black text-blue-600 font-semibold"
+              >
+                Register
+              </a>
+            </div>
+            <div *ngIf="isAuthenticated$">
+              <a
+                [routerLink]="['overview']"
+                class="hover:text-black text-blue-600 font-semibold"
+              >
+                Dashboard
+              </a>
+            </div>
+          </nav>
+        </div>
+      </header>
+
+      <section class="mt-10 text-center lg:text-left">
+        <div class="lg:flex lg:items-center lg:justify-between lg:space-x-8">
+          <div class="space-y-4">
+            <h2 class="text-[7rem] font-bold leading-tight text-gray-900">
+              Vision Impairment <br />
+              Diagnostic <br />
+              Assistant<span class="text-blue-600">.</span>
+            </h2>
+            <p class="text-lg text-gray-600 max-w-lg">
+              We develop revolutionary technologies with delivering quality
+              healthcare through medical technology
+            </p>
+            <div class="flex items-center space-x-2 text-sm text-gray-600">
+              <a href="#" class="hover:text-blue-600">GH</a> /
+              <a href="#" class="hover:text-blue-600">NG</a> /
+              <a href="#" class="hover:text-blue-600">SA</a>
+            </div>
+          </div>
+          <div class="mt-8 lg:mt-0 relative">
+            <a
+              [routerLink]="['register']"
+              class="bg-blue-600 text-white px-10 py-3 rounded-full"
+            >
+              Get Started
+            </a>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>

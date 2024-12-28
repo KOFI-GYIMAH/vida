@@ -1,0 +1,56 @@
+<p-sidebar [(visible)]="sidebarVisible" position="right" (onHide)="onClose()">
+  <div class="" *ngIf="doctor !== undefined">
+    <div class="flex flex-col justify-center items-center mb-5">
+      <img
+        src="https://www.gravatar.com/avatar/2c7d99fe281ecd3bcd65ab915bac6dd5?s=250"
+        alt="doctor"
+        class="w-28 h-28 object-cover rounded-md mb-2"
+      />
+      <p class="font-semibold text-md">
+        {{ doctor.lastName }} {{ doctor.middleName }}
+        {{ doctor.firstName }}
+      </p>
+      <p class="text-gray-500">License Id: {{ doctor.licenceId || 'N/A' }}</p>
+    </div>
+    <div>
+      <p class="text-gray-500 text-sm mb-6">Basic Information</p>
+      <!-- <div class="flex gap-2 items-start mb-5">
+        <i class="pi pi-venus mt-1"></i>
+        <div>
+          <p class="text-gray-500 text-[0.8rem]">Gender</p>
+          <p class="font-semibold text-[0.9rem]">{{ doctor.gender }}</p>
+        </div>
+      </div>
+      <div class="flex gap-2 items-start mb-5">
+        <i class="pi pi-calendar mt-1"></i>
+        <div>
+          <p class="text-gray-500 text-[0.8rem]">Date of Birth</p>
+          <p class="font-semibold text-[0.9rem]">{{ doctor.dob }}</p>
+        </div>
+      </div> -->
+      <div class="flex gap-2 items-start mb-5">
+        <i class="pi pi-phone mt-1"></i>
+        <div>
+          <p class="text-gray-500 text-[0.8rem]">Phone Number</p>
+          <p class="font-semibold text-[0.9rem]">
+            {{ doctor.phoneNumber }}
+          </p>
+        </div>
+      </div>
+      <div class="flex gap-2 items-start mb-5">
+        <i class="pi pi-envelope mt-1"></i>
+        <div>
+          <p class="text-gray-500 text-[0.8rem]">Email</p>
+          <p class="font-semibold text-[0.9rem]">{{ doctor.email }}</p>
+        </div>
+      </div>
+      <div class="flex gap-2 items-start mb-5">
+        <i class="pi pi-map-marker mt-1"></i>
+        <div>
+          <p class="text-gray-500 text-[0.8rem]">Address</p>
+          <p class="font-semibold text-[0.9rem]">Ghana, Greater Accra Region</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</p-sidebar>
