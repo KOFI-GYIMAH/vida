@@ -50,7 +50,6 @@ export class ResetPasswordLinkComponent implements OnInit {
           summary: 'Success',
           detail: 'Reset link sent successful',
         });
-        this.router.navigate(['/login']);
       },
       error: (err) => {
         console.log(err);

@@ -30,9 +30,13 @@ export class AuthService {
     return this.apiService.un_post('auth/forgot-password', payload);
   }
 
-  changePassword(payload: { password: string }): Observable<any> {
-    return this.apiService.post('change-password/', payload);
+  changePassword(payload: {
+    newPassword: string;
+    token: string;
+  }): Observable<any> {
+    return this.apiService.un_post('auth/reset-password/submit', payload);
   }
+
   logout() {
     this.apiService.post('auth/logout', {}).subscribe(() => {
       this.store.dispatch(resetUserState());

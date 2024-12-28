@@ -1,10 +1,21 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { PatientsService } from '@services/patients.service';
-import type { PatientRecord } from '@shared/models';
+import { Store } from '@ngrx/store';
+import type { DoctorMetrics, PatientRecord } from '@shared/models';
+import {
+  loadDoctorMetrics,
+  selectDoctorMetrics,
+  selectDoctorMetricsLoading,
+} from '@store/metrics';
+import {
+  loadPatients,
+  selectPatients,
+  selectPatientsLoading,
+} from '@store/patients';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-overview',
@@ -14,17 +25,21 @@ import { TagModule } from 'primeng/tag';
   styleUrl: './overview.component.css',
 })
 export class OverviewComponent implements OnInit {
-  patients!: PatientRecord[];
   selectedPatients!: PatientRecord[];
-  loading: boolean = true;
+  loading$: Observable<boolean> = this.store.select(selectPatientsLoading);
+  patients$: Observable<PatientRecord[]> = this.store.select(selectPatients);
 
-  constructor(private patientsService: PatientsService) {}
+  doctorMetricsLoading$: Observable<boolean> = this.store.select(
+    selectDoctorMetricsLoading
+  );
+  doctorMetrics$: Observable<DoctorMetrics> =
+    this.store.select(selectDoctorMetrics);
+
+  constructor(private store: Store) {}
 
   ngOnInit() {
-    this.patientsService.getPatients().subscribe((patients) => {
-      this.patients = patients.data.splice(0, 3);
-      this.loading = false;
-    });
+    this.store.dispatch(loadDoctorMetrics());
+    this.store.dispatch(loadPatients());
   }
 
   getSeverity(status: string) {

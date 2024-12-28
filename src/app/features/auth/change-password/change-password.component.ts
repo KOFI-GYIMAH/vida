@@ -6,7 +6,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthService } from '@services/auth.service';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -29,11 +29,13 @@ import { passwordMatchValidator } from '../../../utils';
 export class ChangePasswordComponent implements OnInit {
   loading: boolean = false;
   changePasswordForm!: FormGroup;
+  token: string = '';
 
   constructor(
     private router: Router,
     private messageService: MessageService,
-    private authService: AuthService
+    private authService: AuthService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -47,40 +49,39 @@ export class ChangePasswordComponent implements OnInit {
       },
       { validators: passwordMatchValidator }
     );
+
+    this.route.queryParamMap.subscribe((params) => {
+      this.token = params.get('token') || '';
+    });
   }
 
   onSubmit() {
     if (this.changePasswordForm.invalid) return;
     this.loading = true;
 
-    setTimeout(() => {
-      this.loading = false;
-      this.messageService.add({
-        severity: 'success',
-        summary: 'Success',
-        detail: 'Password changed successful',
-      });
-      this.router.navigate(['/login']);
-    }, 3000);
+    const payload = {
+      token: this.token,
+      newPassword: this.changePasswordForm.value.password,
+    };
 
-    // this.authService.changePassword(this.changePasswordForm.value).subscribe({
-    //   next: (res) => {
-    //     this.loading = false;
-    //     this.messageService.add({
-    //       severity: 'success',
-    //       summary: 'Success',
-    //       detail: 'Password changed successful',
-    //     });
-    //     this.router.navigate(['/login']);
-    //   },
-    //   error: (err) => {
-    //     this.loading = false;
-    //     this.messageService.add({
-    //       severity: 'error',
-    //       summary: 'Error',
-    //       detail: 'Oops, something went wrong.',
-    //     });
-    //   },
-    // });
+    this.authService.changePassword(payload).subscribe({
+      next: (res) => {
+        this.loading = false;
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Password changed successful',
+        });
+        this.router.navigate(['/login']);
+      },
+      error: (err) => {
+        this.loading = false;
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Oops, something went wrong.',
+        });
+      },
+    });
   }
 }

@@ -33,6 +33,7 @@ export class DashboardLayoutComponent implements OnInit {
 
   user!: User;
   token!: string;
+  IS_ADMIN = false;
 
   constructor(
     private localStorageService: LocalStorageService,
@@ -48,6 +49,12 @@ export class DashboardLayoutComponent implements OnInit {
     if (user) {
       this.store.dispatch(loadUserRecordSuccess({ user }));
       this.user = user;
+      this.user.roles.forEach((role) => {
+        if (role === 'ADMIN') {
+          this.IS_ADMIN = true;
+          return;
+        }
+      });
     }
 
     const token = this.localStorageService.getItem('token');

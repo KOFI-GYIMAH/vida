@@ -19,10 +19,11 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import {
   DoctorsEffect,
   metaReducers,
+  MetricsEffect,
   PatientsEffect,
   reducers,
 } from '@store/index';
-import { MessageService, ConfirmationService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
@@ -36,7 +37,7 @@ export const appConfig: ApplicationConfig = {
     ConfirmationService,
     FileSizePipe,
     provideStore(reducers, { metaReducers }),
-    provideEffects([PatientsEffect, DoctorsEffect]),
+    provideEffects([PatientsEffect, DoctorsEffect, MetricsEffect]),
     provideStoreDevtools({
       maxAge: 25,
       logOnly: !isDevMode(),

@@ -39,6 +39,7 @@ interface InferenceImage {
   inferenceResult: string;
   confidence: number;
   base64Image: string;
+  position: 'LEFT' | 'RIGHT' | null;
 }
 
 export interface MedicalRecord {

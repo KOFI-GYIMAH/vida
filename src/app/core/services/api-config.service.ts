@@ -8,8 +8,8 @@ import { LocalStorageService } from './local-storage.service';
 })
 export class APIConfigService {
   private baseURL =
-  'https://retinopathy-api-98e3b2652fc9.herokuapp.com/api/v1/';
-  // private baseURL = 'https://177c-41-218-200-142.ngrok-free.app/api/v1/';
+    'https://retinopathy-api-98e3b2652fc9.herokuapp.com/api/v1/';
+  // private baseURL = 'https://3091-102-176-94-185.ngrok-free.app/api/v1/';
 
   constructor(
     private http: HttpClient,

@@ -93,7 +93,7 @@
             {{ patient.firstName }}
           </span>
         </td>
-        <td>{{ patient.dob | date : "dd" }}</td>
+        <td>{{ calculateAge(patient?.dob?.split("T")[0]) }}</td>
         <td>
           <p class="ml-1 align-middle text--blue-700">
             <a href="mailto:{{ patient.email }}"> {{ patient.email }}</a>

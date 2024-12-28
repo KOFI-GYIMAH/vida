@@ -9,7 +9,6 @@ import { LandingPageComponent } from '@app/landing-page/landing-page.component';
 import { OverviewComponent } from '@app/overview/overview.component';
 import { AddPatientComponent } from '@app/patients/add-patient/add-patient.component';
 import { PatientsComponent } from '@app/patients/patients.component';
-import { RunAnalysisComponent } from '@app/patients/run-analysis/run-analysis.component';
 import { SettingsComponent } from '@app/settings/settings.component';
 import { authGuard } from './core/guard/auth.guard';
 import { noAuthGuard } from './core/guard/no-auth.guard';
@@ -20,6 +19,7 @@ export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   {
     path: '',
+    title: 'Vision Impairment Diagnostic Assistant | Welcome!',
     component: LandingPageComponent,
   },
   {
@@ -29,18 +29,22 @@ export const routes: Routes = [
     children: [
       {
         path: 'register',
+        title: 'Register | Vision Impairment Diagnostic Assistant',
         component: RegisterComponent,
       },
       {
         path: 'login',
+        title: 'Login | Vision Impairment Diagnostic Assistant',
         component: LoginComponent,
       },
       {
         path: 'reset-password-link',
+        title: 'Reset Password | Vision Impairment Diagnostic Assistant',
         component: ResetPasswordLinkComponent,
       },
       {
         path: 'change-password',
+        title: 'Change Password | Vision Impairment Diagnostic Assistant',
         component: ChangePasswordComponent,
       },
     ],
@@ -51,31 +55,33 @@ export const routes: Routes = [
     canActivate: [authGuard],
     children: [
       {
-        path: 'r',
-        component: RunAnalysisComponent,
-      },
-      {
         path: 'overview',
+        title: 'Overview | Vision Impairment Diagnostic Assistant',
         component: OverviewComponent,
       },
       {
         path: 'patients',
+        title: 'Patients | Vision Impairment Diagnostic Assistant',
         component: PatientsComponent,
       },
       {
         path: 'patients-add',
+        title: 'Add Patient | Vision Impairment Diagnostic Assistant',
         component: AddPatientComponent,
       },
       {
         path: 'doctors',
+        title: 'Doctors | Vision Impairment Diagnostic Assistant',
         component: DoctorsComponent,
       },
       {
         path: 'doctors-requests',
+        title: 'Doctors Requests | Vision Impairment Diagnostic Assistant',
         component: DoctorsRequestsComponent,
       },
       {
         path: 'settings',
+        title: 'Settings | Vision Impairment Diagnostic Assistant',
         component: SettingsComponent,
       },
     ],

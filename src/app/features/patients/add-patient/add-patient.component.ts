@@ -57,6 +57,7 @@ export class AddPatientComponent implements OnInit {
     { name: 'Other', value: 'Other' },
   ];
   diabeticStatusOptions: DiabeticStatus[] = DiabeticStatus;
+  diabeticStatus: boolean = false;
 
   addPatientForm: FormGroup = new FormGroup({
     firstName: new FormControl<string>('', [
@@ -69,16 +70,13 @@ export class AddPatientComponent implements OnInit {
     ]),
     dob: new FormControl<Date | null>(null, [Validators.required]),
     gender: new FormControl<string>('', [Validators.required]),
-    phoneNumber: new FormControl<string>('', [
-      Validators.required,
-      Validators.pattern(/^\d{10}$/),
-    ]),
+    phoneNumber: new FormControl<string>('', [Validators.required]),
     email: new FormControl<string>('', [Validators.required, Validators.email]),
     insuranceProvider: new FormControl<string>(''),
     insuranceNumber: new FormControl<string>(''),
     insuranceStartDate: new FormControl<string>(''),
     insuranceEndDate: new FormControl<string>(''),
-    diabeticStatus: new FormControl<string>(''),
+    diabeticStatus: new FormControl<DiabeticStatus | null>(null),
     diabeticType: new FormControl<string>(''),
     diabeticDiagnoseDate: new FormControl<string>(''),
     currentRegimen: new FormControl<string>(''),
@@ -102,26 +100,11 @@ export class AddPatientComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.addPatientForm.setValue({
-      firstName: 'John',
-      lastName: 'Doe',
-      dob: new Date(1985, 6, 15),
-      gender: { name: 'Male', value: 'Male' },
-      phoneNumber: '0123456789',
-      email: 'johndoe@example.com',
-      insuranceProvider: 'HealthFirst',
-      insuranceNumber: 'INS123456',
-      insuranceStartDate: new Date(2021, 6, 15),
-      insuranceEndDate: new Date(2024, 6, 15),
-      diabeticStatus: { name: 'Yes', value: 'Yes' },
-      diabeticType: 'Type 1',
-      diabeticDiagnoseDate: new Date(2024, 6, 15),
-      currentRegimen: 'Insulin Therapy',
-      diabeticFamilyHistory: 'Yes',
-      partEyeCondition: 'Diabetic Retinopathy',
-      partEyeConditionStatement: 'Mild Non-Proliferative',
-      otherMedicalConditions: 'Hypertension',
-    });
+    this.addPatientForm
+      .get('diabeticStatus')
+      ?.valueChanges.subscribe((status) => {
+        this.diabeticStatus = status?.value === 'Yes';
+      });
   }
 
   nextStep() {
@@ -134,12 +117,17 @@ export class AddPatientComponent implements OnInit {
 
   onSubmit() {
     if (this.addPatientForm.invalid) return;
+
+    const formValue = this.addPatientForm.value;
     const payload = {
-      ...this.addPatientForm.value,
-      gender: this.addPatientForm.value.gender.value,
-      diabeticStatus: this.addPatientForm.value.diabeticStatus.value,
+      ...formValue,
+      gender: formValue.gender?.value,
+      diabeticStatus: formValue.diabeticStatus?.value,
+      dob: formValue.dob?.toISOString()?.split('T')[0],
     };
+
     console.log(payload);
+    return
 
     this.store.dispatch(addPatient({ patient: payload }));
   }

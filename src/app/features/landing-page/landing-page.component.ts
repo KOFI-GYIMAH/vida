@@ -2,7 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { selectIsAuthenticated } from '@store/user';
+import { LocalStorageService } from '@services/local-storage.service';
+import { loadUserRecordSuccess, selectIsAuthenticated } from '@store/user';
 
 @Component({
   selector: 'app-landing-page',
@@ -14,9 +15,17 @@ import { selectIsAuthenticated } from '@store/user';
 export class LandingPageComponent implements OnInit {
   isAuthenticated$: boolean = false;
 
-  constructor(private store: Store) {}
+  constructor(
+    private store: Store,
+    private localStorageService: LocalStorageService
+  ) {}
 
   ngOnInit(): void {
+    const user = this.localStorageService.getItem('user');
+    if (user) {
+      this.store.dispatch(loadUserRecordSuccess({ user }));
+    }
+
     this.store.select(selectIsAuthenticated).subscribe((isAuthenticated) => {
       this.isAuthenticated$ = isAuthenticated;
     });

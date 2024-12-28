@@ -146,12 +146,22 @@
             (onClick)="previousStep()"
           />
           <p-button
+            *ngIf="diabeticStatus"
             type="button"
             label="Next"
             styleClass="bg-[#083CB3] border-none"
             icon="pi pi-arrow-right"
             iconPos="right"
             (onClick)="nextStep()"
+          />
+          <p-button
+            *ngIf="!diabeticStatus"
+            type="submit"
+            label="Save"
+            styleClass="bg-[#083CB3] border-none"
+            icon="pi pi-save"
+            iconPos="right"
+            [loading]="loading"
           />
         </div>
       </div>

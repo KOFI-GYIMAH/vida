@@ -21,6 +21,7 @@ import { Table, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { Observable } from 'rxjs';
 import { PatientDetailsComponent } from './patient-details/patient-details.component';
+import { calculateAge } from '@utils/date.utils';
 
 @Component({
   selector: 'app-patients',
@@ -50,6 +51,8 @@ export class PatientsComponent implements OnInit {
 
   sidebarVisible: boolean = false;
   selectedPatient!: PatientRecord;
+
+  calculateAge = calculateAge;
 
   constructor(private store: Store) {}
 

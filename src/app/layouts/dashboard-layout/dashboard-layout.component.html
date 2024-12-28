@@ -99,7 +99,7 @@
                 <span class="ml-3">Add Patient</span>
               </a>
             </li>
-            <li>
+            <li *ngIf="IS_ADMIN">
               <a
                 [routerLink]="['doctors']"
                 [routerLinkActive]="'active'"
@@ -109,7 +109,7 @@
                 <span class="ml-3">Doctors</span>
               </a>
             </li>
-            <li>
+            <li *ngIf="IS_ADMIN">
               <a
                 [routerLink]="['doctors-requests']"
                 [routerLinkActive]="'active'"
@@ -119,6 +119,7 @@
                 <span class="ml-3">Doctor Request</span>
               </a>
             </li>
+            <!-- * Dropdown -->
             <!-- <li>
               <button
                 (click)="toggleDropdown('patients')"
