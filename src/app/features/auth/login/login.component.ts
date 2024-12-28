@@ -1,6 +1,5 @@
-import { LocalStorageService } from './../../../core/services/local-storage.service';
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -8,13 +7,14 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { AuthService } from '@services/auth.service';
+import { loadUserRecordSuccess } from '@store/user';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
-import { loadUserRecordSuccess } from '@store/user';
-import { Store } from '@ngrx/store';
+import { LocalStorageService } from './../../../core/services/local-storage.service';
 
 @Component({
   selector: 'app-login',
@@ -30,14 +30,11 @@ import { Store } from '@ngrx/store';
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   loading: boolean = false;
   loginForm: FormGroup = new FormGroup({
-    email: new FormControl<string>('borlor@andurar.com', [
-      Validators.required,
-      Validators.email,
-    ]),
-    password: new FormControl<string>('password', [Validators.required]),
+    email: new FormControl<string>('', [Validators.required, Validators.email]),
+    password: new FormControl<string>('', [Validators.required]),
   });
 
   constructor(
@@ -47,8 +44,6 @@ export class LoginComponent implements OnInit {
     private localStorageService: LocalStorageService,
     private store: Store
   ) {}
-
-  ngOnInit() {}
 
   onSubmit() {
     if (this.loginForm.invalid) return;
@@ -74,7 +69,9 @@ export class LoginComponent implements OnInit {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'Invalid email or password. Please try again.',
+          detail:
+            err?.error?.responseMessage ||
+            'Invalid email or password. Please try again.',
         });
       },
     });

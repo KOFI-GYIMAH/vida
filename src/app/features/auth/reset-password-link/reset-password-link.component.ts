@@ -41,34 +41,26 @@ export class ResetPasswordLinkComponent implements OnInit {
     if (this.resetPasswordForm.invalid) return;
     this.loading = true;
 
-    setTimeout(() => {
-      this.loading = false;
-      this.messageService.add({
-        severity: 'success',
-        summary: 'Success',
-        detail: 'Reset link sent successful',
-      });
-      this.router.navigate(['/login']);
-    }, 3000);
-
-    // this.authService.resetPasswordLink(this.resetPasswordForm.value).subscribe({
-    //   next: (res) => {
-    //     this.loading = false;
-    //     this.messageService.add({
-    //       severity: 'success',
-    //       summary: 'Success',
-    //       detail: 'Reset link sent successful',
-    //     });
-    //     this.router.navigate(['/login']);
-    //   },
-    //   error: (err) => {
-    //     this.loading = false;
-    //     this.messageService.add({
-    //       severity: 'error',
-    //       summary: 'Error',
-    //       detail: 'Oops, something went wrong.',
-    //     });
-    //   },
-    // });
+    this.authService.resetPasswordLink(this.resetPasswordForm.value).subscribe({
+      next: (res) => {
+        console.log(res);
+        this.loading = false;
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Reset link sent successful',
+        });
+        this.router.navigate(['/login']);
+      },
+      error: (err) => {
+        console.log(err);
+        this.loading = false;
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Oops, something went wrong.',
+        });
+      },
+    });
   }
 }

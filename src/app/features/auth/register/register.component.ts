@@ -10,10 +10,10 @@ import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '@services/auth.service';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
+import { DropdownModule } from 'primeng/dropdown';
 import { InputMaskModule } from 'primeng/inputmask';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
-import { passwordMatchValidator } from '../../../utils';
 
 @Component({
   selector: 'app-register',
@@ -26,6 +26,7 @@ import { passwordMatchValidator } from '../../../utils';
     ButtonModule,
     InputMaskModule,
     PasswordModule,
+    DropdownModule,
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',
@@ -33,7 +34,12 @@ import { passwordMatchValidator } from '../../../utils';
 export class RegisterComponent implements OnInit {
   loading: boolean = false;
   registerForm!: FormGroup;
-
+  rolesOptions = [
+    { name: 'Optometrist', value: 'OPTOMETRIST' },
+    { name: 'Specialist', value: 'SPECIALIST' },
+    { name: 'General Practitioner', value: 'GENERAL_PRACTITIONER' },
+    { name: 'Technician', value: 'TECHNICIAN' },
+  ];
   constructor(
     private router: Router,
     private messageService: MessageService,
@@ -41,66 +47,63 @@ export class RegisterComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.registerForm = new FormGroup(
-      {
-        firstName: new FormControl<string>('', [
-          Validators.required,
-          Validators.minLength(3),
-        ]),
-        lastName: new FormControl<string>('', [
-          Validators.required,
-          Validators.minLength(3),
-        ]),
-        licenseId: new FormControl<string>('', [Validators.required]),
-        phoneNumber: new FormControl<string>('', [Validators.required]),
-        email: new FormControl<string>('', [
-          Validators.required,
-          Validators.email,
-        ]),
-        password: new FormControl<string>('', [
-          Validators.required,
-          Validators.min(8),
-        ]),
-        confirm_password: new FormControl<string>('', Validators.required),
-      },
-      { validators: passwordMatchValidator }
-    );
+    this.registerForm = new FormGroup({
+      firstName: new FormControl<string>('', [
+        Validators.required,
+        Validators.minLength(3),
+      ]),
+      middleName: new FormControl<string>(''),
+      lastName: new FormControl<string>('', [
+        Validators.required,
+        Validators.minLength(3),
+      ]),
+      licenseId: new FormControl<string>('', [Validators.required]),
+      phoneNumber: new FormControl<string>('', [Validators.required]),
+      email: new FormControl<string>('', [
+        Validators.required,
+        Validators.email,
+      ]),
+      password: new FormControl<string>('', [
+        Validators.required,
+        Validators.min(8),
+      ]),
+      roles: new FormControl<string>('', [Validators.required]),
+    });
   }
 
   onSubmit() {
     if (this.registerForm.invalid) return;
     this.loading = true;
 
-    // setTimeout(() => {
-    //   this.loading = false;
-    //   this.messageService.add({
-    //     severity: 'success',
-    //     summary: 'Success',
-    //     detail: 'Request submitted successfully',
-    //     sticky: true,
-    //   });
-    //   this.router.navigate(['/']);
-    // }, 3000);
+    const payload = {
+      ...this.registerForm.value,
+      roles: [this.registerForm.value.roles.value],
+    };
 
-    this.authService.register(this.registerForm.value).subscribe({
+    this.authService.register(payload).subscribe({
       next: (res) => {
         this.loading = false;
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'Request submitted successfully',
-           sticky: true,
-        });
-        this.router.navigate(['/']);
+
+        if (res.responseCode == 200) {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: res.responseMessage || 'Request submitted successfully',
+            sticky: true,
+          });
+          this.router.navigate(['/']);
+        }
       },
       error: (err) => {
         this.loading = false;
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'Invalid email or password. Please try again.',
+          detail: 'Already registered',
         });
       },
     });
   }
 }
+
+// gyimahkofisam@gmail.com

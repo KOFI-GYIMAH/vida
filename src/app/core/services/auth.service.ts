@@ -27,7 +27,7 @@ export class AuthService {
   }
 
   resetPasswordLink(payload: { email: string }): Observable<any> {
-    return this.apiService.post('reset-password-link/', payload);
+    return this.apiService.un_post('auth/forgot-password', payload);
   }
 
   changePassword(payload: { password: string }): Observable<any> {

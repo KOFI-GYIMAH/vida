@@ -23,12 +23,6 @@ interface Gender {
   value: string;
 }
 
-const GENDERS: Gender[] = [
-  { name: 'Male', value: 'Male' },
-  { name: 'Female', value: 'Female' },
-  { name: 'Other', value: 'Other' },
-];
-
 interface DiabeticStatus {
   name: string;
   value: string;
@@ -57,7 +51,11 @@ const DiabeticStatus: DiabeticStatus[] = [
 export class AddPatientComponent implements OnInit {
   loading: boolean = false;
   currentStep: number = 1;
-  genderOptions: Gender[] = GENDERS;
+  genderOptions: Gender[] = [
+    { name: 'Male', value: 'Male' },
+    { name: 'Female', value: 'Female' },
+    { name: 'Other', value: 'Other' },
+  ];
   diabeticStatusOptions: DiabeticStatus[] = DiabeticStatus;
 
   addPatientForm: FormGroup = new FormGroup({
