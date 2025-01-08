@@ -126,9 +126,6 @@ export class AddPatientComponent implements OnInit {
       dob: formValue.dob?.toISOString()?.split('T')[0],
     };
 
-    console.log(payload);
-    return
-
     this.store.dispatch(addPatient({ patient: payload }));
   }
 }
