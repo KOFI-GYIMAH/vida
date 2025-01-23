@@ -113,7 +113,7 @@
     <div class="card">
       <p-table
         #dt
-        [value]="(patients$ | async) || []"
+        [value]="(patients$ | async)?.slice(0, 5) || []"
         [(selection)]="selectedPatients"
         dataKey="id"
         [rowHover]="true"

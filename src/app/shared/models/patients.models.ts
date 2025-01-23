@@ -100,12 +100,13 @@ export interface AnalysisResult {
   diagnosis: string;
   inferenceStatus: FileAnalysisStatus;
   doctorNote: string;
+  name: string;
 }
 
 export type AnalysisResponse = {
   responseMessage: string;
   responseCode: number;
-  data: AnalysisResult;
+  data: AnalysisResult[];
 };
 
 export interface FileItem {

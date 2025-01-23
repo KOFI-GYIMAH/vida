@@ -1,177 +1,176 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, Input, OnInit } from '@angular/core';
 import { AnalysisService } from '@services/analysis.service';
-import { AnalysisResult } from '@shared/models';
 import { DialogModule } from 'primeng/dialog';
-import { FileUploadModule } from 'primeng/fileupload';
-import { RadioButtonModule } from 'primeng/radiobutton';
 import { v4 as uuidv4 } from 'uuid';
 
-interface FileItem {
+interface ImageData {
   id: string;
   name: string;
   file: File;
-  progress: number;
-  preview?: string;
-  analysisResult?: AnalysisResult;
-  isAnalyzing?: boolean;
+  preview: string;
+  analysis?: {
+    prediction: string;
+    confidence: number;
+  };
   eyeType: 'left' | 'right';
 }
 
 @Component({
   selector: 'app-run-analysis',
   standalone: true,
-  imports: [
-    FileUploadModule,
-    CommonModule,
-    RadioButtonModule,
-    FormsModule,
-    DialogModule,
-  ],
+  imports: [CommonModule, DialogModule],
   templateUrl: './run-analysis.component.html',
   styleUrl: './run-analysis.component.css',
 })
-export class RunAnalysisComponent {
-  eye: string = 'leftEye';
-  activeTab = 'Left Eye';
-  activeTabIndex = 0;
-  loading: boolean = false;
-
-  leftEyeFiles: FileItem[] = [];
-  rightEyeFiles: FileItem[] = [];
+export class RunAnalysisComponent implements OnInit {
+  leftImages = new Map<string, ImageData>();
+  rightImages = new Map<string, ImageData>();
+  isDraggingLeft = false;
+  isDraggingRight = false;
+  isProcessing = false;
 
   @Input() visible: boolean = false;
   @Input() patientId: string = '';
 
-  tabs = [{ label: 'Left Eye' }, { label: 'Right Eye' }];
-
   constructor(private analysisService: AnalysisService) {}
 
-  setActiveTab(tabIndex: number) {
-    this.activeTab = this.tabs[tabIndex].label;
-    this.activeTabIndex = tabIndex;
+  get leftImagesArray(): ImageData[] {
+    return Array.from(this.leftImages.values());
   }
 
-  createImagePreview(file: File): Promise<string> {
-    return new Promise((resolve) => {
-      const reader = new FileReader();
+  get rightImagesArray(): ImageData[] {
+    return Array.from(this.rightImages.values());
+  }
 
-      reader.onload = (event: any) => {
-        const img = new Image();
-        img.onload = () => resolve(event.target.result);
-        img.onerror = () => resolve('/assets/placeholder-image.png');
-        img.src = event.target.result;
-      };
+  get isAnalyzeDisabled(): boolean {
+    return this.leftImages.size === 0 || this.rightImages.size === 0;
+  }
 
-      reader.onerror = (error) => resolve('/assets/placeholder-image.png');
-      reader.readAsDataURL(file);
+  ngOnInit() {}
+
+  onDragEnter(event: DragEvent, side: 'left' | 'right') {
+    event.preventDefault();
+    event.stopPropagation();
+    if (side === 'left') this.isDraggingLeft = true;
+    else this.isDraggingRight = true;
+  }
+
+  onDragOver(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  onDragLeave(event: DragEvent, side: 'left' | 'right') {
+    event.preventDefault();
+    event.stopPropagation();
+    if (side === 'left') this.isDraggingLeft = false;
+    else this.isDraggingRight = false;
+  }
+
+  onDrop(event: DragEvent, side: 'left' | 'right') {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (side === 'left') this.isDraggingLeft = false;
+    else this.isDraggingRight = false;
+
+    const files = event.dataTransfer?.files;
+    if (files) {
+      this.handleFiles(files, side);
+    }
+  }
+
+  onFileSelected(event: Event, side: 'left' | 'right') {
+    const input = event.target as HTMLInputElement;
+    if (input.files) {
+      this.handleFiles(input.files, side);
+    }
+  }
+
+  handleFiles(fileList: FileList, side: 'left' | 'right') {
+    Array.from(fileList).forEach((file) => {
+      if (file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const id = uuidv4();
+          const imageData: ImageData = {
+            id,
+            name: file.name,
+            file,
+            preview: e.target?.result as string,
+            eyeType: side,
+          };
+
+          if (side === 'left') {
+            this.leftImages.set(id, imageData);
+          } else {
+            this.rightImages.set(id, imageData);
+          }
+        };
+        reader.readAsDataURL(file);
+      }
     });
   }
 
-  async onFileSelect(event: any) {
-    const files: File[] = event.target.files;
-    const eyeType = this.activeTab === 'Left Eye' ? 'left' : 'right';
-
-    const newFiles: FileItem[] = await Promise.all(
-      Array.from(files).map(async (file) => {
-        const fileNameParts = file.name.split('.');
-        const baseFileName = fileNameParts.slice(0, -1).join('.');
-        const fileExtension = fileNameParts[fileNameParts.length - 1];
-        const modifiedFileName = `${baseFileName}_${eyeType}.${fileExtension}`;
-
-        return {
-          id: uuidv4(),
-          name: modifiedFileName,
-          file: file,
-          progress: 0,
-          preview: await this.createImagePreview(file),
-          eyeType: eyeType,
-          isAnalyzing: false,
-        };
-      })
-    );
-
-    if (this.activeTab === 'Left Eye') {
-      this.leftEyeFiles = [...this.leftEyeFiles, ...newFiles];
+  removeImage(side: 'left' | 'right', id: string) {
+    if (side === 'left') {
+      this.leftImages.delete(id);
     } else {
-      this.rightEyeFiles = [...this.rightEyeFiles, ...newFiles];
+      this.rightImages.delete(id);
     }
   }
 
-  removeFile(isLeftEye: boolean, index: number) {
-    if (isLeftEye) {
-      this.leftEyeFiles.splice(index, 1);
+  clearAll(side: 'left' | 'right') {
+    if (side === 'left') {
+      this.leftImages.clear();
     } else {
-      this.rightEyeFiles.splice(index, 1);
+      this.rightImages.clear();
     }
   }
 
-  runAnalysis() {
-    this.loading = true;
+  removeConfidence(text: string): string {
+    return text.replace(/\s*\(Confidence: \d+\.\d+%\)$/, '');
+  }
 
+  async analyzeImages() {
+    this.isProcessing = true;
     const formData = new FormData();
     const uniqueId = uuidv4();
 
-    const allFiles = [...this.leftEyeFiles, ...this.rightEyeFiles];
-    allFiles.forEach((fileItem) => {
-      fileItem.progress = 0;
-      fileItem.isAnalyzing = true;
-      fileItem.analysisResult = undefined;
-    });
-
-    // * Simulate progressive upload
-    allFiles.forEach((fileItem) => {
-      const progressInterval = setInterval(() => {
-        if (fileItem.progress < 90) {
-          fileItem.progress += 10;
-        } else {
-          clearInterval(progressInterval);
-        }
-      }, 200);
-    });
+    const allFiles = [
+      ...Array.from(this.leftImages.values()),
+      ...Array.from(this.rightImages.values()),
+    ];
 
     allFiles.forEach((fileItem) => {
       formData.append('files', fileItem.file, fileItem.name);
       formData.append('eyeTypes', fileItem.eyeType);
     });
+
     formData.append('sessionId', uniqueId);
-    formData.append('patientId', this.patientId);
+    formData.append('patientId', '934bb4ef-046f-45c0-8070-3460cdc6f5fb');
 
-    this.analysisService.runAnalysis(formData).subscribe(
-      (response) => {
+    this.analysisService.runAnalysis(formData).subscribe({
+      next: (response) => {
         if (response && response.responseCode === 200) {
-          allFiles.forEach((fileItem, index) => {
-            fileItem.progress = 100;
-            fileItem.isAnalyzing = false;
-
-            fileItem.analysisResult = {
-              ...response.data,
-              doctorNote: '',
-            };
+          response.data.forEach((fileItem: any) => {
+            const file = allFiles.find((f) => f.name === fileItem.name);
+            if (file) {
+              file.analysis = {
+                prediction: this.removeConfidence(fileItem.inferenceResult),
+                confidence: fileItem.confidence,
+              };
+            }
           });
         }
-        this.loading = false;
       },
-      (error) => {
-        allFiles.forEach((fileItem) => {
-          fileItem.progress = 0;
-          fileItem.isAnalyzing = false;
-        });
-        this.loading = false;
-      }
-    );
-  }
-
-  saveAnalysisNote(file: FileItem) {
-    if (file.analysisResult) {
-      console.log('Saving note for file:', file.name);
-      console.log("Doctor's Note:", file.analysisResult.doctorNote);
-    }
-  }
-
-  discardAll() {
-    this.leftEyeFiles = [];
-    this.rightEyeFiles = [];
+      error: (error) => {
+        console.error('Error during analysis:', error);
+      },
+      complete: () => {
+        this.isProcessing = false;
+      },
+    });
   }
 }

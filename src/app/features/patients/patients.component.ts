@@ -8,6 +8,7 @@ import {
   selectPatients,
   selectPatientsLoading,
 } from '@store/patients';
+import { calculateAge } from '@utils/date.utils';
 import { ButtonModule } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
 import { IconFieldModule } from 'primeng/iconfield';
@@ -21,7 +22,7 @@ import { Table, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { Observable } from 'rxjs';
 import { PatientDetailsComponent } from './patient-details/patient-details.component';
-import { calculateAge } from '@utils/date.utils';
+import { RunAnalysisComponent } from './run-analysis/run-analysis.component';
 
 @Component({
   selector: 'app-patients',
@@ -40,6 +41,7 @@ import { calculateAge } from '@utils/date.utils';
     ProgressBarModule,
     SidebarModule,
     PatientDetailsComponent,
+    RunAnalysisComponent,
   ],
   providers: [PatientsService],
   templateUrl: './patients.component.html',
