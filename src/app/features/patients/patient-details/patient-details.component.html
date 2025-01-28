@@ -89,13 +89,21 @@
             </div>
           </div>
 
+          <app-table-skeleton
+            *ngIf="loading"
+            [rows]="5"
+            [columns]="4"
+            [hasHeader]="true"
+            [columnWidths]="['100px', '2fr', '1fr', '1fr']"
+          />
+
           <p-table
+            *ngIf="!loading"
             #dt
             [value]="medRecords"
             dataKey="id"
             [rowHover]="true"
             [rows]="4"
-            [loading]="loading"
             [paginator]="true"
           >
             <ng-template pTemplate="header">
@@ -333,7 +341,7 @@
         >
           <div>
             <img
-              [src]="'data:image/jpeg;base64,' + image.base64Image"
+              [src]="image.imageUrl"
               class="h-[15rem] w-full object-contain"
               alt=""
             />
@@ -341,7 +349,7 @@
           <div class="w-full">
             <div class="mb-10">
               <p class="text-lg text-gray-500 mb-2 font-semibold">
-                Confidence Score
+                Confidence Score {{ convertToPercentage(image.confidence) }}
               </p>
               <app-progress-bar
                 [progress]="convertToPercentage(image.confidence)"

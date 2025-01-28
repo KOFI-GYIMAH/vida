@@ -22,7 +22,16 @@ export class PatientsService {
     return this.apiService.post('patients/register', patient);
   }
 
+  createMedicalRecord(patientId: string, payload: any): Observable<any> {
+    return this.apiService.post(
+      `reports/patients/${patientId}/create`,
+      payload
+    );
+  }
+
   getMedicalRecords(id: string): Observable<MedicalRecordResponse> {
-    return this.apiService.get<MedicalRecordResponse>(`reports/patients/${id}`);
+    return this.apiService.get<MedicalRecordResponse>(
+      `reports/patients/${id}/paginated?page=0&size=5`
+    );
   }
 }

@@ -1,5 +1,5 @@
-<div class="min-h-screen flex flex-col bg-white">
-  <nav class="bg-white border-b border-gray-200 fixed w-full z-30">
+<div class="min-h-screen flex flex-col bg-slate-50">
+  <nav class="bg-slate-50 border-gray-200 fixed w-full z-30">
     <div class="px-3 py-3 lg:px-5 lg:pl-3">
       <div class="flex items-center justify-between">
         <div class="flex items-center justify-start">
@@ -36,11 +36,11 @@
             <button
               class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300"
             >
-              <img
-                src="https://www.gravatar.com/avatar/2c7d99fe281ecd3bcd65ab915bac6dd5?s=250"
-                width="52"
-                class="rounded-full"
-              />
+              <div
+                class="w-11 h-11 rounded-full bg-gray-200 flex items-center justify-center"
+              >
+                <i class="pi pi-user text-gray-500"></i>
+              </div>
             </button>
           </div>
           <div class="hidden lg:flex items-center">
@@ -67,7 +67,7 @@
       class="fixed left-0 top-0 z-20 h-full pt-[5rem] flex lg:flex flex-shrink-0 flex-col w-64 transition-width duration-75 transform bg-[#F9FAFB] lg:translate-x-0"
     >
       <div class="flex-1 flex flex-col min-h-0 pt-4">
-        <div class="flex-1 px-3 bg-[#F9FAFB] divide-y space-y-1">
+        <div class="flex-1 px-3 bg-slate-50 divide-y space-y-1">
           <ul class="space-y-2 pb-2">
             <li>
               <a
@@ -204,8 +204,9 @@
         class="bg-white md:flex md:items-center md:justify-between shadow px-4 py-6 md:p-6 xl:p-8"
       >
         <p class="text-center text-sm text-gray-500 my-4 md:my-0">
-          &copy; 2024 <a href="https://andurar.com" target="_blank">Andurar</a>.
-          All rights reserved.
+          &copy; {{ currentYear }}
+          <a href="https://andurar.com" target="_blank">Andurar</a>. All rights
+          reserved.
         </p>
         <ul
           class="flex flex-wrap items-center justify-center space-x-4 md:justify-end"

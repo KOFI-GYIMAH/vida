@@ -10,14 +10,21 @@
   (close)="sidebarVisible = false"
 />
 
-<div class="card">
+<app-table-skeleton
+  *ngIf="loading$ | async"
+  [rows]="5"
+  [columns]="4"
+  [hasHeader]="true"
+  [columnWidths]="['100px', '2fr', '1fr', '1fr']"
+/>
+
+<div class="card" *ngIf="!(loading$ | async)">
   <p-table
     #dt
     [value]="(patients$ | async) || []"
     dataKey="id"
     [rowHover]="true"
     [rows]="6"
-    [loading]="loading$ | async"
     [paginator]="true"
     [filterDelay]="0"
     [globalFilterFields]="['firstName', 'middleName', 'lastName']"

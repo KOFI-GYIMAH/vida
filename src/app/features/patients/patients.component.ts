@@ -23,6 +23,7 @@ import { TagModule } from 'primeng/tag';
 import { Observable } from 'rxjs';
 import { PatientDetailsComponent } from './patient-details/patient-details.component';
 import { RunAnalysisComponent } from './run-analysis/run-analysis.component';
+import { TableSkeletonComponent } from '@shared/components/table-skeleton.component';
 
 @Component({
   selector: 'app-patients',
@@ -42,6 +43,7 @@ import { RunAnalysisComponent } from './run-analysis/run-analysis.component';
     SidebarModule,
     PatientDetailsComponent,
     RunAnalysisComponent,
+    TableSkeletonComponent,
   ],
   providers: [PatientsService],
   templateUrl: './patients.component.html',

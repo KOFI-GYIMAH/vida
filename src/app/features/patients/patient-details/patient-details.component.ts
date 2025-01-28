@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PatientsService } from '@services/patients.service';
 import { ProgressBarComponent } from '@shared/components/progress.component';
+import { TableSkeletonComponent } from '@shared/components/table-skeleton.component';
 import type { PatientRecord } from '@shared/models';
 import { MedicalRecord } from '@shared/models';
 import { calculateAge } from '@utils/date.utils';
@@ -26,6 +27,7 @@ import { RunAnalysisComponent } from '../run-analysis/run-analysis.component';
     DialogModule,
     ProgressBarComponent,
     RunAnalysisComponent,
+    TableSkeletonComponent,
   ],
   templateUrl: './patient-details.component.html',
   styleUrl: './patient-details.component.css',
@@ -66,7 +68,7 @@ export class PatientDetailsComponent implements OnInit {
       this.loading = true;
       this.patientsService.getMedicalRecords(this._patient.id).subscribe(
         (res) => {
-          this.medRecords = res.data;
+          this.medRecords = res.data.content;
           this.loading = false;
         },
         (error) => {
@@ -91,7 +93,7 @@ export class PatientDetailsComponent implements OnInit {
   }
 
   convertToPercentage(value: number): number {
-    return Math.round(value * 100);
+    return Math.min(Math.max(value, 0), 100);
   }
 
   openCreateMedRecordModal() {

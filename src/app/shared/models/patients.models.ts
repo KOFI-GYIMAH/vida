@@ -38,7 +38,7 @@ interface InferenceImage {
   id: string;
   inferenceResult: string;
   confidence: number;
-  base64Image: string;
+  imageUrl: string;
   position: 'LEFT' | 'RIGHT' | null;
 }
 
@@ -58,7 +58,7 @@ export interface MedicalRecord {
 }
 
 export interface MedicalRecordResponse {
-  data: MedicalRecord[];
+  data: { content: MedicalRecord[] };
   status: number;
   message: string;
 }

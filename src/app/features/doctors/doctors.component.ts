@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { TableSkeletonComponent } from '@shared/components/table-skeleton.component';
 import { DoctorRecord } from '@shared/models';
 import {
   loadDoctors,
@@ -36,6 +37,7 @@ import { DoctorDetailsComponent } from './doctor-details/doctor-details.componen
     SliderModule,
     ProgressBarModule,
     DoctorDetailsComponent,
+    TableSkeletonComponent,
   ],
   templateUrl: './doctors.component.html',
   styleUrl: './doctors.component.css',

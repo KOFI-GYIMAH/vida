@@ -1,6 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { AnalysisService } from '@services/analysis.service';
+import { PatientsService } from '@services/patients.service';
+import { MessageService } from 'primeng/api';
 import { DialogModule } from 'primeng/dialog';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -14,12 +17,13 @@ interface ImageData {
     confidence: number;
   };
   eyeType: 'left' | 'right';
+  inferenceComment?: string;
 }
 
 @Component({
   selector: 'app-run-analysis',
   standalone: true,
-  imports: [CommonModule, DialogModule],
+  imports: [CommonModule, DialogModule, FormsModule],
   templateUrl: './run-analysis.component.html',
   styleUrl: './run-analysis.component.css',
 })
@@ -29,11 +33,17 @@ export class RunAnalysisComponent implements OnInit {
   isDraggingLeft = false;
   isDraggingRight = false;
   isProcessing = false;
+  uniqueId = uuidv4();
+  isAnalysisRun = false;
 
   @Input() visible: boolean = false;
   @Input() patientId: string = '';
 
-  constructor(private analysisService: AnalysisService) {}
+  constructor(
+    private analysisService: AnalysisService,
+    private patientsService: PatientsService,
+    private messageService: MessageService
+  ) {}
 
   get leftImagesArray(): ImageData[] {
     return Array.from(this.leftImages.values());
@@ -44,7 +54,8 @@ export class RunAnalysisComponent implements OnInit {
   }
 
   get isAnalyzeDisabled(): boolean {
-    return this.leftImages.size === 0 || this.rightImages.size === 0;
+    // return this.leftImages.size === 0 || this.rightImages.size === 0;
+    return false;
   }
 
   ngOnInit() {}
@@ -136,7 +147,6 @@ export class RunAnalysisComponent implements OnInit {
   async analyzeImages() {
     this.isProcessing = true;
     const formData = new FormData();
-    const uniqueId = uuidv4();
 
     const allFiles = [
       ...Array.from(this.leftImages.values()),
@@ -148,8 +158,8 @@ export class RunAnalysisComponent implements OnInit {
       formData.append('eyeTypes', fileItem.eyeType);
     });
 
-    formData.append('sessionId', uniqueId);
-    formData.append('patientId', '934bb4ef-046f-45c0-8070-3460cdc6f5fb');
+    formData.append('sessionId', this.uniqueId);
+    formData.append('patientId', this.patientId);
 
     this.analysisService.runAnalysis(formData).subscribe({
       next: (response) => {
@@ -164,6 +174,7 @@ export class RunAnalysisComponent implements OnInit {
             }
           });
         }
+        this.isAnalysisRun = true;
       },
       error: (error) => {
         console.error('Error during analysis:', error);
@@ -172,5 +183,46 @@ export class RunAnalysisComponent implements OnInit {
         this.isProcessing = false;
       },
     });
+  }
+
+  async submitFinalComments() {
+    this.isProcessing = true;
+    const allFiles = [
+      ...Array.from(this.leftImages.values()),
+      ...Array.from(this.rightImages.values()),
+    ];
+
+    const analyzedFiles = allFiles.filter((file) => file.analysis);
+
+    const payloads = analyzedFiles.map((file) => ({
+      sessionId: this.uniqueId,
+      diagnosis: `${file.analysis?.prediction} (Confidence: ${file.analysis?.confidence}%)`,
+      doctorNotes: file.inferenceComment || '',
+    }));
+
+    try {
+      for (const payload of payloads) {
+        const response = await this.patientsService
+          .createMedicalRecord(this.patientId, payload)
+          .toPromise();
+
+        if (response && response.responseCode === 200) {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Record created successfully',
+          });
+        } else {
+          console.error(
+            `Failed to create record for sessionId: ${payload.sessionId}`
+          );
+        }
+      }
+    } catch (error) {
+      console.error('Error submitting records:', error);
+    } finally {
+      this.isProcessing = false;
+      this.visible = false;
+    }
   }
 }

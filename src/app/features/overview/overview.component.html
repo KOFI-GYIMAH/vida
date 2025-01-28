@@ -1,214 +1,82 @@
-<div class="mb-8">
-  <h2 class="text-2xl font-semibold">Dashboard Overview</h2>
-</div>
-
-<div
-  class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4"
-  *ngIf="doctorMetrics$ | async as doctorMetrics"
->
-  <div class="bg-blue-500 shadow rounded-lg p-4 sm:p-6 xl:p-8">
-    <div class="flex items-center">
-      <div class="flex-shrink-0">
-        <span class="text-2xl sm:text-3xl font-bold text-white">
-          {{ doctorMetrics.totalPatients }}
-        </span>
-        <h3 class="text-base font-normal text-blue-100">Total Patients</h3>
+<div class="p-6 bg-slate-50 min-h-screen">
+  <h1 class="text-2xl font-bold mb-6 text-gray-800">Medical Dashboard</h1>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    @for (stat of stats(); track stat.title) {
+    <div
+      class="px-4 py-6 rounded-lg shadow-sm"
+      [style.background-color]="stat.color"
+    >
+      <div class="flex items-center text-white">
+        <i [class]="stat.icon" class="text-3xl mr-4"></i>
+        <div>
+          <p class="text-sm opacity-90">{{ stat.title }}</p>
+          <h2 class="text-3xl font-bold">{{ stat.value }}</h2>
+        </div>
       </div>
     </div>
+    }
   </div>
 
-  <div class="bg-green-500 shadow rounded-lg p-4 sm:p-6 xl:p-8">
-    <div class="flex items-center">
-      <div class="flex-shrink-0">
-        <span class="text-2xl sm:text-3xl font-bold text-white">
-          {{ doctorMetrics.totalAnalyzedImages }}
-        </span>
-        <h3 class="text-base font-normal text-green-100">Total Scans</h3>
-      </div>
-    </div>
+  <div class="my-6">
+    <p-card header="Monthly Overview">
+      <p-chart
+        type="line"
+        [data]="chartData()"
+        [options]="chartOptions()"
+      ></p-chart>
+    </p-card>
   </div>
 
-  <div class="bg-yellow-500 shadow rounded-lg p-4 sm:p-6 xl:p-8">
-    <div class="flex items-center">
-      <div class="flex-shrink-0">
-        <span class="text-2xl sm:text-3xl font-bold text-white">
-          {{ doctorMetrics.totalMedicalReports }}
-        </span>
-        <h3 class="text-base font-normal text-yellow-100">
-          Total Generated Medical Reports
-        </h3>
-      </div>
-    </div>
-  </div>
-
-  <div class="bg-red-500 shadow rounded-lg p-4 sm:p-6 xl:p-8">
-    <div class="flex items-center">
-      <div class="flex-shrink-0">
-        <span class="text-2xl sm:text-3xl font-bold text-white">
-          {{ doctorMetrics.totalPatients }}
-        </span>
-        <h3 class="text-base font-normal text-red-100">Inactive Patients</h3>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
-  <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8">
-    <div class="flex items-center">
-      <div class="flex-shrink-0">
-        <span class="text-2xl sm:text-3xl font-bold text-gray-900">
-          2,340
-        </span>
-        <h3 class="text-base font-normal text-gray-500">Total Patients</h3>
-      </div>
-    </div>
-  </div>
-
-  <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8">
-    <div class="flex items-center">
-      <div class="flex-shrink-0">
-        <span class="text-2xl sm:text-3xl font-bold text-gray-900">
-          10,678
-        </span>
-        <h3 class="text-base font-normal text-gray-500">
-          Total Scans this Week
-        </h3>
-      </div>
-    </div>
-  </div>
-
-  <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8">
-    <div class="flex items-center">
-      <div class="flex-shrink-0">
-        <span class="text-2xl sm:text-3xl font-bold text-gray-900">8.16%</span>
-        <h3 class="text-base font-normal text-gray-500">Conversion Rate</h3>
-      </div>
-    </div>
-  </div>
-
-  <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8">
-    <div class="flex items-center">
-      <div class="flex-shrink-0">
-        <span class="text-2xl sm:text-3xl font-bold text-gray-900">1,219</span>
-        <h3 class="text-base font-normal text-gray-500">Active Users</h3>
-      </div>
-    </div>
-  </div>
-</div> -->
-
-<div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 mb-4">
-  <h3 class="text-xl font-bold text-gray-900 mb-4">Monthly Overview</h3>
-  <div class="h-64 bg-gray-50 rounded flex items-center justify-center">
-    <span class="text-gray-400">Chart Area</span>
-  </div>
-</div>
-
-<div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8">
-  <div class="flex justify-between">
-    <h3 class="text-xl font-bold text-gray-900 mb-4">Patient Overview</h3>
-    <a [routerLink]="['patients']">See More</a>
-  </div>
-  <div class="overflow-x-auto">
-    <div class="card">
-      <p-table
-        #dt
-        [value]="(patients$ | async)?.slice(0, 5) || []"
-        [(selection)]="selectedPatients"
-        dataKey="id"
-        [rowHover]="true"
-        [rows]="5"
-        [loading]="loading$ | async"
-      >
-        <ng-template pTemplate="header">
-          <tr>
-            <th style="min-width: 8rem">
-              <div class="flex justify-content-between align-items-center">
-                PATIENT ID
+  <p-card header="Recent Patients">
+    <p-table
+      [value]="(patients$ | async)?.slice(0, 5) || []"
+      [tableStyle]="{ 'min-width': '50rem' }"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Patient ID</th>
+          <th>Full Name</th>
+          <th>Contact</th>
+          <th>Gender</th>
+          <th>DOB</th>
+          <th>Status</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-patient>
+        <tr>
+          <td>{{ patient.customId }}</td>
+          <td>
+            <div class="flex items-center gap-2">
+              <div
+                class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center"
+              >
+                <i class="pi pi-user text-gray-500"></i>
               </div>
-            </th>
-            <th></th>
-            <th pSortableColumn="firstName" style="min-width: 14rem">
-              <div class="flex justify-between items-center">FULL NAME</div>
-            </th>
-            <th style="min-width: 14rem">
-              <div class="flex justify-content-between align-items-center">
-                CONTACT
-              </div>
-            </th>
-            <th pSortableColumn="gender" style="min-width: 7rem">
-              <div class="flex justify-content-between align-items-center">
-                GENDER
-              </div>
-            </th>
-            <th style="min-width: 10rem">
-              <div class="flex justify-content-between align-items-center">
-                DOB
-              </div>
-            </th>
-            <th pSortableColumn="status" style="min-width: 10rem">
-              <div class="flex justify-content-between align-items-center">
-                Status
-              </div>
-            </th>
-            <th style="width: 5rem"></th>
-          </tr>
-        </ng-template>
-
-        <ng-template pTemplate="body" let-patient>
-          <tr class="p-selectable-row">
-            <td>
-              {{ patient.customId }}
-            </td>
-            <td>
-              <img
-                src="https://www.gravatar.com/avatar/2c7d99fe281ecd3bcd65ab915bac6dd5?s=250"
-                width="36"
-                class="rounded-full"
-              />
-            </td>
-            <td>
-              <span class="ml-1 align-middle">
-                {{ patient.lastName }} {{ patient.middleName }}
-                {{ patient.firstName }}
-              </span>
-            </td>
-            <td>
-              <p class="ml-1 align-middle">
-                <a href="tel:{{ patient.phoneNumber }}">
-                  <i class="pi pi-phone text-[0.79rem]"></i>
-                  {{ patient.phoneNumber }}
-                </a>
-              </p>
-            </td>
-            <td>
-              <span class="ml-1 align-middle">{{ patient.gender }}</span>
-            </td>
-            <td>
+              {{ patient.lastName }} {{ patient.middleName }}
+              {{ patient.firstName }}
+            </div>
+          </td>
+          <td>
+            <div class="flex items-center gap-2">
+              <i class="pi pi-phone"></i>
+              {{ patient.phoneNumber }}
+            </div>
+          </td>
+          <td>{{ patient.gender }}</td>
+          <td>
+            <div class="flex items-center gap-2">
+              <i class="pi pi-calendar"></i>
               {{ patient.dob | date : "MM/dd/yyyy" }}
-            </td>
-            <td>
-              <p-tag
-                [value]="patient.status"
-                [severity]="getSeverity(patient.status)"
-              />
-            </td>
-            <td style="text-align: center">
-              <!-- <p-button
-            severity="secondary"
-            icon="pi pi-eye"
-            (onClick)="setActivePatient(patient)"
-          /> -->
-            </td>
-          </tr>
-        </ng-template>
-
-        <ng-template pTemplate="emptymessage">
-          <tr>
-            <td colspan="8">No patients found.</td>
-          </tr>
-        </ng-template>
-      </p-table>
-    </div>
-  </div>
+            </div>
+          </td>
+          <td>
+            <p-tag
+              [value]="patient.status"
+              [severity]="getSeverity(patient.status)"
+            />
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-card>
 </div>

@@ -35,6 +35,8 @@ export class DashboardLayoutComponent implements OnInit {
   token!: string;
   IS_ADMIN = false;
 
+  currentYear: number = new Date().getFullYear();
+
   constructor(
     private localStorageService: LocalStorageService,
     private store: Store,
