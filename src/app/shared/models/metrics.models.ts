@@ -14,3 +14,14 @@ export interface DoctorMetrics {
   predictionStatistics: PredictionStatistic[];
   totalPatients: number;
 }
+
+export interface AdminMetrics {
+  totalAnalyzedImages: number;
+  averageConfidence: number;
+  totalUsers: number;
+  totalMedicalReports: number;
+  totalReferrals: number;
+  pieChartData: PieChartData;
+  predictionStatistics: PredictionStatistic[];
+  totalPatients: number;
+}

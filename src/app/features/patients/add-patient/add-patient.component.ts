@@ -64,6 +64,7 @@ export class AddPatientComponent implements OnInit {
       Validators.required,
       Validators.minLength(3),
     ]),
+    middleName: new FormControl<string>(''),
     lastName: new FormControl<string>('', [
       Validators.required,
       Validators.minLength(3),

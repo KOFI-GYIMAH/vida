@@ -13,3 +13,9 @@ export const selectDoctorMetrics = createSelector(
   selectMetricsState,
   (state) => state.doctorMetrics || {}
 );
+
+// * Admin Metrics
+export const selectAdminMetrics = createSelector(
+  selectMetricsState,
+  (state) => state.adminMetrics || {}
+);

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -31,48 +31,52 @@ import { PasswordModule } from 'primeng/password';
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent {
   loading: boolean = false;
-  registerForm!: FormGroup;
+  registerForm: FormGroup = new FormGroup({
+    firstName: new FormControl<string>('', [
+      Validators.required,
+      Validators.minLength(3),
+    ]),
+    middleName: new FormControl<string>(''),
+    lastName: new FormControl<string>('', [
+      Validators.required,
+      Validators.minLength(3),
+    ]),
+    licenseId: new FormControl<string>('', [Validators.required]),
+    phoneNumber: new FormControl<string>('', [Validators.required]),
+    email: new FormControl<string>('', [Validators.required, Validators.email]),
+    password: new FormControl<string>('', [
+      Validators.required,
+      Validators.min(8),
+    ]),
+    roles: new FormControl<string>('', [Validators.required]),
+  });
+
+  currentStep: number = 1;
   rolesOptions = [
     { name: 'Optometrist', value: 'OPTOMETRIST' },
     { name: 'Specialist', value: 'SPECIALIST' },
     { name: 'General Practitioner', value: 'GENERAL_PRACTITIONER' },
     { name: 'Technician', value: 'TECHNICIAN' },
   ];
+
   constructor(
     private router: Router,
     private messageService: MessageService,
     private authService: AuthService
   ) {}
 
-  ngOnInit() {
-    this.registerForm = new FormGroup({
-      firstName: new FormControl<string>('', [
-        Validators.required,
-        Validators.minLength(3),
-      ]),
-      middleName: new FormControl<string>(''),
-      lastName: new FormControl<string>('', [
-        Validators.required,
-        Validators.minLength(3),
-      ]),
-      licenseId: new FormControl<string>('', [Validators.required]),
-      phoneNumber: new FormControl<string>('', [Validators.required]),
-      email: new FormControl<string>('', [
-        Validators.required,
-        Validators.email,
-      ]),
-      password: new FormControl<string>('', [
-        Validators.required,
-        Validators.min(8),
-      ]),
-      roles: new FormControl<string>('', [Validators.required]),
-    });
+  nextStep() {
+    if (this.currentStep < 2) this.currentStep++;
+  }
+
+  previousStep() {
+    if (this.currentStep > 1) this.currentStep--;
   }
 
   onSubmit() {
-    if (this.registerForm.invalid) return;
+    if (this.currentStep === 1 && this.registerForm.invalid) return;
     this.loading = true;
 
     const payload = {
@@ -83,7 +87,6 @@ export class RegisterComponent implements OnInit {
     this.authService.register(payload).subscribe({
       next: (res) => {
         this.loading = false;
-
         if (res.responseCode == 200) {
           this.messageService.add({
             severity: 'success',
@@ -105,5 +108,3 @@ export class RegisterComponent implements OnInit {
     });
   }
 }
-
-// gyimahkofisam@gmail.com

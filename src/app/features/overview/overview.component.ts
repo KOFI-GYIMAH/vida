@@ -1,9 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, signal } from '@angular/core';
 import { Store } from '@ngrx/store';
-import type { DoctorMetrics, PatientRecord } from '@shared/models';
+import type {
+  AdminMetrics,
+  DoctorMetrics,
+  PatientRecord,
+} from '@shared/models';
 import {
+  loadAdminMetrics,
   loadDoctorMetrics,
+  selectAdminMetrics,
   selectDoctorMetrics,
   selectDoctorMetricsLoading,
 } from '@store/metrics';
@@ -35,11 +41,14 @@ export class OverviewComponent implements OnInit {
   );
   doctorMetrics$: Observable<DoctorMetrics> =
     this.store.select(selectDoctorMetrics);
+  adminMetrics$: Observable<AdminMetrics> =
+    this.store.select(selectAdminMetrics);
 
   constructor(private store: Store) {}
 
   ngOnInit() {
     this.store.dispatch(loadDoctorMetrics());
+    this.store.dispatch(loadAdminMetrics());
     this.store.dispatch(loadPatients());
   }
 

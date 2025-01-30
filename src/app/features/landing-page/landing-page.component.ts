@@ -4,11 +4,12 @@ import { RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { LocalStorageService } from '@services/local-storage.service';
 import { loadUserRecordSuccess, selectIsAuthenticated } from '@store/user';
+import { AnimateOnScrollModule } from 'primeng/animateonscroll';
 
 @Component({
   selector: 'app-landing-page',
   standalone: true,
-  imports: [RouterLink, CommonModule],
+  imports: [RouterLink, CommonModule, AnimateOnScrollModule],
   templateUrl: './landing-page.component.html',
   styleUrl: './landing-page.component.css',
 })

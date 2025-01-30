@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { DoctorMetrics } from '@shared/models';
+import { AdminMetrics, DoctorMetrics } from '@shared/models';
 
 // * Doctor Metrics
 export const loadDoctorMetrics = createAction('[Metrics] Load Doctor Metrics');
@@ -13,4 +13,18 @@ export const loadDoctorMetricsFailure = createAction(
 );
 export const retainDoctorMetrics = createAction(
   '[Metrics] Retain Doctor Metrics'
+);
+
+// * Admin Metrics
+export const loadAdminMetrics = createAction('[Metrics] Load Admin Metrics');
+export const loadAdminMetricsSuccess = createAction(
+  '[Metrics] Load Admin Metrics Success',
+  props<{ metrics: AdminMetrics }>()
+);
+export const loadAdminMetricsFailure = createAction(
+  '[Metrics] Load Admin Metrics Failure',
+  props<{ error: any }>()
+);
+export const retainAdminMetrics = createAction(
+  '[Metrics] Retain Admin Metrics'
 );

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DoctorMetrics } from '@shared/models';
+import { AdminMetrics, DoctorMetrics } from '@shared/models';
 import { Observable } from 'rxjs';
 import { APIConfigService } from './api-config.service';
 
@@ -11,5 +11,9 @@ export class MetricsService {
 
   getDoctorMetrics(): Observable<DoctorMetrics> {
     return this.apiService.get<DoctorMetrics>('user/dashboard/metrics');
+  }
+
+  getAdminMetrics(): Observable<AdminMetrics> {
+    return this.apiService.get<AdminMetrics>('admin/dashboard/metrics');
   }
 }

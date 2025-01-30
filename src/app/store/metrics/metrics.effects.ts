@@ -5,9 +5,9 @@ import { MetricsService } from '@services/metrics.service';
 import { isEmptyObject } from '@utils/utils.utils';
 import { of } from 'rxjs';
 import { catchError, map, switchMap, withLatestFrom } from 'rxjs/operators';
-import { selectDoctorMetrics } from './metrics.selectors';
+import { selectAdminMetrics, selectDoctorMetrics } from './metrics.selectors';
 
-import type { DoctorMetrics } from '@shared/models';
+import type { AdminMetrics, DoctorMetrics } from '@shared/models';
 import * as metricsActions from './metrics.actions';
 
 @Injectable()
@@ -32,6 +32,27 @@ export class MetricsEffect {
             }),
             catchError((error) =>
               of(metricsActions.loadDoctorMetricsFailure({ error }))
+            )
+          );
+        }
+      })
+    )
+  );
+
+  loadAdminMetrics$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(metricsActions.loadAdminMetrics),
+      withLatestFrom(this.store.select(selectAdminMetrics)),
+      switchMap(([action, metrics]) => {
+        if (metrics && !isEmptyObject(metrics)) {
+          return of(metricsActions.retainAdminMetrics());
+        } else {
+          return this.metricsService.getAdminMetrics().pipe(
+            map((metrics: AdminMetrics) => {
+              return metricsActions.loadAdminMetricsSuccess({ metrics });
+            }),
+            catchError((error) =>
+              of(metricsActions.loadAdminMetricsFailure({ error }))
             )
           );
         }
