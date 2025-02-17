@@ -14,6 +14,10 @@
   font-family: "Open Sans", sans-serif;
 }
 
+html {
+  background-color: #021930;
+}
+
 .p-inputtext {
   background-color: #f3f4f7;
   border: none;
@@ -123,4 +127,73 @@
   .responsive-dialog {
     width: 100%;
   }
+}
+
+table {
+  background-color: #0d1420 !important; /* Same as our bg-gray-900 */
+}
+
+tbody {
+  background-color: #021930 !important; /* Same as our bg-gray-800 */
+}
+
+.p-datatable {
+  border: 1px solid #30425c;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  border-radius: 0.5rem;
+}
+
+.p-datatable .p-datatable-thead > tr > th {
+  background-color: #021930 !important;
+  color: #ffffff !important;
+  border-color: #30425c !important;
+}
+
+.p-datatable .p-datatable-tbody > tr > td {
+  border-bottom-color: #30425c !important;
+}
+
+.p-datatable .p-datatable-tbody > tr {
+  background-color: #021930 !important;
+  color: #ffffffbf !important;
+}
+
+.p-datatable .p-datatable-tbody > tr:nth-child(even) {
+  background-color: #021930 !important;
+}
+
+.p-datatable .p-datatable-tbody > tr:hover {
+  background-color: #021930 !important;
+}
+
+.p-datatable.p-datatable-bordered .p-datatable-tbody > tr > td {
+  border-color: #30425c !important;
+}
+
+.p-paginator {
+  background-color: #021930 !important;
+  border-color: #30425c !important;
+}
+
+.p-sidebar,
+.p-dialog {
+  background-color: #021930 !important;
+}
+
+.p-dialog .p-dialog-header {
+  background: #021930;
+  color: #ffffffd0;
+
+}
+
+.p-dialog .p-dialog-content {
+  background: #021930;
+  color: #ffff;
+  padding: 1rem;
+}
+
+
+.p-dialog .p-dialog-footer {
+  background: #021930;
+  color: #ffff;
 }

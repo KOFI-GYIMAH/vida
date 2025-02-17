@@ -1,5 +1,5 @@
 <div class="mb-8">
-  <h2 class="text-2xl font-semibold">Patients</h2>
+  <h2 class="text-2xl font-semibold text-gray-300">Patients</h2>
 </div>
 
 <app-run-analysis />
@@ -29,7 +29,7 @@
     [filterDelay]="0"
     [globalFilterFields]="['firstName', 'middleName', 'lastName']"
   >
-    <ng-template pTemplate="caption">
+    <!-- <ng-template pTemplate="caption">
       <div class="flex justify-end">
         <p-iconField iconPosition="left">
           <p-inputIcon>
@@ -38,7 +38,7 @@
           <input pInputText type="text" placeholder="Keyboard Search" />
         </p-iconField>
       </div>
-    </ng-template>
+    </ng-template> -->
 
     <ng-template pTemplate="header">
       <tr>
@@ -49,10 +49,7 @@
           </div>
         </th> -->
         <th pSortableColumn="firstName" style="min-width: 10rem">
-          <div class="flex justify-between items-center">
-            Name
-            <p-sortIcon field="firstName" />
-          </div>
+          <div class="flex justify-between items-center">Name</div>
         </th>
         <th style="min-width: 3rem">
           <div class="flex justify-content-between align-items-center">Age</div>
@@ -70,13 +67,11 @@
         <th pSortableColumn="gender" style="min-width: 5rem">
           <div class="flex justify-content-between align-items-center">
             Gender
-            <p-sortIcon field="gender" />
           </div>
         </th>
         <th pSortableColumn="status" style="min-width: 5rem">
           <div class="flex justify-content-between align-items-center">
             Status
-            <p-sortIcon field="status" />
           </div>
         </th>
         <th style="width: 5rem"></th>

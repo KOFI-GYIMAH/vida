@@ -1,13 +1,12 @@
-<div class="p-6 bg-slate-50 min-h-screen">
+<div class="p-6 min-h-screen">
   <div class="flex justify-between items-center mb-6">
     <div>
-      <h1 class="text-xl">Welcome back, {{ user.firstName }} 👋</h1>
-      <p class="text-sm text-gray-600">
+      <h1 class="text-xl text-white">Welcome back, {{ user.firstName }} 👋</h1>
+      <p class="text-sm text-gray-400">
         Here is the latest update for the last 7 days. Check now
       </p>
     </div>
     <div class="flex gap-2">
-      <!-- <p-dropdown [options]="timeframes" [(ngModel)]="selectedTimeframe"></p-dropdown> -->
       <button
         pButton
         label="Export"
@@ -16,82 +15,63 @@
       ></button>
     </div>
   </div>
-  <!-- <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-    <div class="bg-emerald-700 text-white p-4 rounded-lg">
-      <div class="flex justify-between mb-4">
-        <h3>Total Patients</h3>
-        <button class="text-white"><i class="pi pi-ellipsis-h"></i></button>
-      </div>
-      <div class="text-3xl font-bold mb-2">10,525</div>
-      <div class="flex items-center text-sm">
-        <span class="bg-emerald-800 px-2 py-1 rounded mr-2">+15.2%</span>
-        <span>1,345 today</span>
-      </div>
-    </div>
-    
-    <div class="bg-white p-4 rounded-lg shadow">
-      <div class="flex justify-between mb-4">
-        <h3>Total patient</h3>
-        <button><i class="pi pi-ellipsis-h"></i></button>
-      </div>
-      <div class="text-3xl font-bold mb-2">5,715</div>
-      <div class="flex items-center text-sm">
-        <span class="text-green-500">+10.4%</span>
-      </div>
-      <div class="mt-4 h-16">
-        <p-chart
-              type="bar"
-              [data]="patientChartData"
-              [options]="miniChartOptions"
-            ></p-chart>
-      </div>
-    </div>
-  </div> -->
-  <!-- <h1 class="text-2xl font-bold mb-6 text-gray-800">Medical Dashboard</h1> -->
-  <div *ngIf="adminMetrics$ | async as metrics">
-    <!-- {{ metrics | json }} -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-      @for (stat of stats(); track stat.title) {
-      <div
-        class="px-4 py-6 rounded-lg shadow-sm"
-        [style.background-color]="stat.color"
-      >
-        <div class="flex items-center text-white">
-          <i [class]="stat.icon" class="text-3xl mr-4"></i>
-          <div>
-            <p class="text-sm opacity-90">{{ stat.title }}</p>
-            <h2 class="text-3xl font-bold">{{ stat.value }}</h2>
+
+  <div class="grid grid-cols-1 gap-5 md:grid-cols-3">
+    <div class="col-span-2">
+      <div *ngIf="adminMetrics$ | async as metrics">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          @for (stat of stats(); track stat.title) {
+          <div
+            class="px-4 py-6 rounded-lg shadow-sm card-gradient-bg border border-[#1E334C] text-center"
+          >
+            <div class="flex items-center justify-center text-white">
+              <!-- <i [class]="stat.icon" class="text-3xl mr-4"></i> -->
+              <div>
+                <p class="text-sm opacity-90">{{ stat.title }}</p>
+                <h2 class="text-3xl font-bold text-gray-300">
+                  {{ stat.value }}
+                </h2>
+              </div>
+            </div>
+            <span class="flex items-center">
+              <i class="pi pi-arrow-up-right text-green-700 text-sm"></i>
+              <span class="text-sm text-gray-400">10.34% than last week</span>
+            </span>
           </div>
+          }
         </div>
       </div>
-      }
+
+      <div class="mt-5">
+        <h2 class="font-bold text-gray-300 py-5">Analysis Statistics</h2>
+        <div class="card-gradient-bg p-2 rounded-lg">
+          <p-chart
+            type="line"
+            [data]="lineGraphData"
+            [options]="lineGraphOptions"
+            height="20rem"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="col-span-1">
+      <div class="shadow-md rounded-md">
+        <h2 class="font-bold text-gray-300 mb-5">Analysis Statistics</h2>
+        <div class="card-gradient-bg p-2 rounded-lg">
+          <p-chart
+            type="doughnut"
+            [data]="data"
+            [options]="options"
+            height="25rem"
+            width="100%"
+          />
+        </div>
+      </div>
     </div>
   </div>
 
-  <div class="my-6 grid grid-cols-1 md:grid-cols-1 gap-4">
-    <!-- <div class="bg-white shadow-md rounded-md">
-      <h2 class="font-bold text-gray-700 px-5 py-5">Monthly Overview</h2>
-      <p-chart
-        type="line"
-        [data]="chartData()"
-        [options]="chartOptions()"
-      ></p-chart>
-    </div> -->
-    <div class="bg-white shadow-md rounded-md py-5">
-      <h2 class="font-bold text-gray-700 px-5 py-5">Monthly Overview</h2>
-      <!-- <p-card header="Monthly Overview" styleClass="text-[1rem]"> -->
-      <p-chart
-        type="doughnut"
-        [data]="data"
-        [options]="options"
-        height="25rem"
-        width="100%"
-      />
-      <!-- </p-card> -->
-    </div>
-  </div>
-
-  <p-card header="Recent Patients">
+  <div class="mt-24">
+    <h3 class="font-bold text-gray-300 py-5">Recent Patients</h3>
     <p-table
       [value]="(patients$ | async)?.slice(0, 5) || []"
       [tableStyle]="{ 'min-width': '50rem' }"
@@ -137,7 +117,5 @@
         </tr>
       </ng-template>
     </p-table>
-  </p-card>
+  </div>
 </div>
-
-<!-- <app-dashboard /> -->

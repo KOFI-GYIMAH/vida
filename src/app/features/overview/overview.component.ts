@@ -61,6 +61,10 @@ export class OverviewComponent implements OnInit {
   data: any;
   options: any;
 
+  // Line graph
+  lineGraphData: any;
+  lineGraphOptions: any;
+
   constructor(
     private store: Store,
     private localStorageService: LocalStorageService
@@ -107,6 +111,13 @@ export class OverviewComponent implements OnInit {
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--text-color');
 
+    //     const documentStyle = getComputedStyle(document.documentElement);
+    // const textColor = documentStyle.getPropertyValue('--text-color');
+    const textColorSecondary = documentStyle.getPropertyValue(
+      '--text-color-secondary'
+    );
+    const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+
     // Default pie chart structure
     this.data = {
       labels: [],
@@ -125,9 +136,19 @@ export class OverviewComponent implements OnInit {
         legend: {
           labels: {
             color: textColor,
+            position: 'bottom',
           },
         },
       },
+      // plugins: {
+      //   legend: {
+      //     position: 'bottom',
+      //   },
+      //   title: {
+      //     display: true,
+      //     text: 'Chart.js Doughnut Chart',
+      //   },
+      // },
     };
 
     if (this.adminMetrics$) {
@@ -141,7 +162,8 @@ export class OverviewComponent implements OnInit {
         });
 
         // Extract labels and values for Pie Chart
-        const labels = Object.keys(metrics.pieChartData);
+        // const labels = Object.keys(metrics.pieChartData);
+        const labels = ['NO DR', 'Mild', 'Moderate', 'Severe', 'Proliferative']
         const data = Object.values(metrics.pieChartData);
 
         // Assign colors dynamically
@@ -177,8 +199,78 @@ export class OverviewComponent implements OnInit {
         };
       });
     }
-  }
 
+    this.lineGraphData = {
+      labels: ['January', 'February', 'March'],
+      maintainAspectRatio: false,
+      datasets: [
+        {
+          label: 'First Dataset',
+          data: [65, 59, 80, 81],
+          fill: true,
+          borderColor: documentStyle.getPropertyValue('--green-500'),
+          tension: 0.4,
+          backgroundColor: (context: any) => {
+            const chart = context.chart;
+            const { ctx, chartArea } = chart;
+
+            if (!chartArea) {
+              // This case happens on initial chart load
+              return;
+            }
+
+            // Create gradient
+            const gradient = ctx.createLinearGradient(
+              0,
+              chartArea.bottom,
+              0,
+              chartArea.top
+            );
+            gradient.addColorStop(0, 'rgba(10, 20, 45, 0.8)'); // Dark blue at bottom
+            gradient.addColorStop(1, 'rgba(90, 200, 205, 0.8)'); // Light teal at top
+
+            return gradient;
+          },
+          // backgroundColor:
+          //   'linear-gradient(to bottom, rgb(90, 200, 205), rgb(10, 20, 45));',
+        },
+      ],
+    };
+
+    this.lineGraphOptions = {
+      maintainAspectRatio: false,
+      aspectRatio: 0.6,
+      plugins: {
+        legend: {
+          labels: {
+            color: textColor,
+          },
+        },
+      },
+      scales: {
+        x: {
+          ticks: {
+            color: textColorSecondary,
+          },
+          grid: {
+            color: surfaceBorder,
+            drawBorder: false,
+            display: false,
+          },
+        },
+        y: {
+          ticks: {
+            color: textColorSecondary,
+          },
+          grid: {
+            color: surfaceBorder,
+            drawBorder: false,
+            display: false,
+          },
+        },
+      },
+    };
+  }
 
   toPercentage(value: number, decimalPlaces: number = 2): string {
     return (value * 100).toFixed(decimalPlaces) + '%';

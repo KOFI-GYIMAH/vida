@@ -5,10 +5,9 @@
   (onClose)="onRunAnalysisClose()"
 />
 
-<!-- Patient Medical medRecords -->
-<div class="card rounded-lg bg-white py-9">
+<div class="card rounded-lg bg-[#021930] py-9">
   <div class="flex justify-between items-center mb-5">
-    <p class="text-gray-600 font-bold text-md md:text-lg">Medical History</p>
+    <p class="text-gray-100 font-bold text-md md:text-lg">Medical History</p>
     <div class="flex items-center">
       <p-button
         type="button"
@@ -45,7 +44,7 @@
           </div>
         </th>
         <th pSortableColumn="firstName" style="min-width: 14rem">
-          <div class="flex justify-between items-center">Diagnosis</div>
+          <div class="flex justify-between items-center">Doctor Note</div>
         </th>
         <th style="min-width: 5rem">
           <div class="flex justify-content-between align-items-center">
@@ -55,7 +54,6 @@
         <th pSortableColumn="gender" style="min-width: 7rem">
           <div class="flex justify-content-between align-items-center">
             Created At
-            <p-sortIcon field="gender" />
           </div>
         </th>
         <th style="width: 5rem"></th>
@@ -70,7 +68,7 @@
         </td>
         <td>
           <span class="ml-1 align-middle">
-            {{ record.diagnosis }}
+            {{ record.doctorNotes }}
           </span>
         </td>
         <td>
@@ -98,7 +96,7 @@
 </div>
 
 <!-- Analysis Results -->
-<div class="card flex justify-content-center">
+<div class="card bg-[#021930] flex justify-content-center">
   <p-dialog
     [header]="'Analysis Results'"
     [modal]="true"
@@ -126,11 +124,11 @@
         </p>
       </div>
       <div *ngFor="let image of selectedRecord.images">
-        <p class="text-gray-600 my-1 font-semibold flex justify-end">
+        <p class="text-gray-300 my-1 font-semibold flex justify-end">
           {{ image.position || "Left" }} Side
         </p>
         <div
-          class="flex items-center justify-center gap-10 mb-10 border rounded-md p-5"
+          class="flex items-center justify-center gap-10 mb-10 border border-gray-500 rounded-md p-5"
         >
           <div>
             <img

@@ -1,3 +1,7 @@
+<div class="mb-8">
+  <h2 class="text-2xl font-semibold text-gray-300">Add Patient Record</h2>
+</div>
+
 <div>
   <form
     class="flex w-full justify-center"
@@ -7,7 +11,7 @@
     <div class="w-full max-w-[500px]">
       <!-- Step 1 -->
       <div *ngIf="currentStep === 1">
-        <h3 class="text-md font-bold text-gray-900 my-5">
+        <h3 class="text-md font-bold text-gray-100 my-5">
           Personal Information
         </h3>
       </div>
@@ -92,7 +96,7 @@
 
       <!-- Step 2 -->
       <div *ngIf="currentStep === 2">
-        <h3 class="text-md font-bold text-gray-900 my-5">Medical Record</h3>
+        <h3 class="text-md font-bold text-gray-100 my-5">Medical Record</h3>
       </div>
       <div *ngIf="currentStep === 2" class="space-y-10">
         <div class="card flex justify-content-center">
@@ -177,7 +181,7 @@
 
       <!-- Step 3 -->
       <div *ngIf="currentStep === 3">
-        <h3 class="text-md font-bold text-gray-900 my-5">Medical Record</h3>
+        <h3 class="text-md font-bold text-gray-100 my-5">Medical Record</h3>
       </div>
       <div *ngIf="currentStep === 3" class="space-y-10">
         <div class="card flex justify-content-center">

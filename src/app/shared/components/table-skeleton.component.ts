@@ -6,25 +6,25 @@ import { Component, Input, OnInit } from '@angular/core';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div class="overflow-hidden rounded-lg shadow-sm border border-gray-200">
+    <div class="overflow-hidden rounded-lg shadow-sm border border-[#02193081]">
       @if (hasHeader) {
-      <div class="bg-gray-50 border-b border-gray-200">
+      <div class="bg-[#02193081] border-b border-[#02193081]">
         <div class="grid gap-4 p-4" [style.grid-template-columns]="gridColumns">
           @for (col of columnArray(); track $index) {
-          <div class="h-6 bg-gray-200 rounded skeleton-animation"></div>
+          <div class="h-6 bg-[#02193081] rounded skeleton-animation"></div>
           }
         </div>
       </div>
       }
 
-      <div class="bg-white divide-y divide-gray-200">
+      <div class="bg-[#02193081] divide-y divide-[#02193081]">
         @for (row of rowArray(); track row; let rowIndex = $index) {
         <div class="grid gap-4 p-4" [style.grid-template-columns]="gridColumns">
           @for (col of columnArray(); track col; let colIndex = $index) {
           <div
             class="skeleton-animation"
             [ngClass]="{
-              'h-4 bg-gray-100 rounded': true,
+              'h-4 bg-[#02193081] rounded': true,
               'w-1/2': colIndex === 0,
               'w-full': colIndex !== 0,
               'animation-delay-1': (rowIndex + colIndex) % 3 === 1,

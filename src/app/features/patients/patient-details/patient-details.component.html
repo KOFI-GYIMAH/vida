@@ -1,17 +1,18 @@
-<!-- <div class="card flex justify-content-center"> -->
-<p-sidebar [(visible)]="sidebarVisible" (onHide)="onClose()">
-  <!-- <ng-template pTemplate="header">
-    <span class="font-bold text-md md:text-2xl capitalize">
-      {{ patient.lastName }} {{ patient.middleName }}
-      {{ patient.firstName }} Medical Records
-    </span>
-  </ng-template> -->
-  <div class="mt-10 gap-10" *ngIf="patient !== undefined">
+<p-sidebar
+  [(visible)]="sidebarVisible"
+  (onHide)="onClose()"
+  position="right"
+  styleClass="custom-sidebar"
+>
+  <div class="mt-10 gap-10 text-gray-200" *ngIf="patient !== undefined">
     <div class="mb-5 md:mb-0">
       <!-- <div class="shadow-lg rounded-lg bg-white px-6 py-9"> -->
       <div class="flex flex-col justify-center items-center mb-5">
         <img
-          [src]="'https://api.dicebear.com/9.x/initials/svg?seed=' + patient.firstName"
+          [src]="
+            'https://api.dicebear.com/9.x/initials/svg?seed=' +
+            patient.firstName
+          "
           alt="Patient"
           class="w-28 h-28 object-cover rounded-md mb-2"
         />
@@ -296,69 +297,3 @@
       </div> -->
   </div>
 </p-sidebar>
-<!-- </div> -->
-
-<!-- <div class="card flex justify-content-center">
-  <p-dialog
-    [header]="'Analysis Results'"
-    [modal]="true"
-    [(visible)]="visible"
-    [style]="{ width: '60%' }"
-  >
-    <div
-      *ngIf="
-        selectedRecord !== undefined &&
-        selectedRecord.images !== undefined &&
-        selectedRecord.images.length > 0
-      "
-    >
-      <div class="mb-10 flex justify-end">
-        <p-button
-          *ngIf="selectedRecord.referrable"
-          severity="danger"
-          label="Referral Needed"
-        />
-      </div>
-      <div>
-        <p class="font-bold">Doctor Note</p>
-        <p>
-          {{ selectedRecord.doctorNotes }}
-        </p>
-      </div>
-      <div *ngFor="let image of selectedRecord.images">
-        <p class="text-gray-600 my-1 font-semibold flex justify-end">
-          {{ image.position || "Left" }} Side
-        </p>
-        <div
-          class="flex items-center justify-center gap-10 mb-10 border rounded-md p-5"
-        >
-          <div>
-            <img
-              [src]="image.imageUrl"
-              class="h-[15rem] w-full object-containc"
-              alt=""
-            />
-          </div>
-          <div class="w-full">
-            <div class="mb-10">
-              <p class="text-lg text-gray-500 mb-2 font-semibold">
-                Confidence Score {{ convertToPercentage(image.confidence) }}
-              </p>
-              <app-progress-bar
-                [progress]="convertToPercentage(image.confidence)"
-              />
-            </div>
-            <div class="mb-10">
-              <p class="text-lg text-gray-500 mb-2 font-semibold">Condition</p>
-              <p>{{ image.inferenceResult }}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </p-dialog>
-</div> -->
-
-<!-- <div *ngIf="patient !== undefined">
-  <app-run-analysis [visible]="runAnalysisVisible" [patientId]="patient.id" />
-</div> -->

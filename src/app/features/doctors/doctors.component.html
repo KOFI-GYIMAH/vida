@@ -1,5 +1,5 @@
 <div class="mb-8">
-  <h2 class="text-2xl font-semibold">Doctors</h2>
+  <h2 class="text-2xl font-semibold text-gray-300">Doctors</h2>
 </div>
 
 <app-doctor-details
@@ -27,7 +27,7 @@
     [filterDelay]="0"
     [globalFilterFields]="['firstName', 'middleName', 'lastName']"
   >
-    <ng-template pTemplate="caption">
+    <!-- <ng-template pTemplate="caption">
       <div class="flex justify-end">
         <p-iconField iconPosition="left">
           <p-inputIcon>
@@ -36,7 +36,7 @@
           <input pInputText type="text" placeholder="Keyboard Search" />
         </p-iconField>
       </div>
-    </ng-template>
+    </ng-template> -->
 
     <ng-template pTemplate="header">
       <tr>
@@ -46,11 +46,9 @@
             Doctor Id
           </div>
         </th>
-        <th></th>
         <th pSortableColumn="firstName" style="min-width: 10rem">
           <div class="flex justify-between items-center">
             Name
-            <p-sortIcon field="firstName" />
           </div>
         </th>
         <th style="min-width: 10rem">
@@ -83,12 +81,6 @@
         <td>{{ rowIndex + 1 }}.</td>
         <td class="font-medium">
           {{ doctor.customId }}
-        </td>
-        <td>
-          <img
-            src="https://www.gravatar.com/avatar/2c7d99fe281ecd3bcd65ab915bac6dd5?s=250"
-            class="rounded-full h-10 w-10"
-          />
         </td>
         <td>
           <span class="align-middle">

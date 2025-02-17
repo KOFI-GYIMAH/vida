@@ -1,0 +1,11 @@
+.card-gradient-bg {
+  background-image: linear-gradient(
+    to bottom,
+    rgb(15 36 61),
+    rgb(3 26 46)
+  );
+}
+
+::ng-deep .custom-chart canvas {
+  height: 1rem !important; /* Adjust height as needed */
+}

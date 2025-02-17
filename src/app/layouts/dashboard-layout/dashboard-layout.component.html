@@ -1,5 +1,5 @@
-<div class="min-h-screen flex flex-col bg-slate-50">
-  <nav class="bg-slate-50 border-gray-200 fixed w-full z-30">
+<div class="min-h-screen flex flex-col bg--slate-50">
+  <nav class="bg-[#021930] border-gray-200 fixed w-full z-30 shadow-l">
     <div class="px-3 py-3 lg:px-5 lg:pl-3">
       <div class="flex items-center justify-between">
         <div class="flex items-center justify-start">
@@ -23,10 +23,10 @@
             </svg>
           </button>
           <a href="#" class="flex flex-col items-cente-r lg:ml-2.5">
-            <span class="self--center whitespace-nowrap font-bold text-3xl">
+            <span class="text-white whitespace-nowrap font-bold text-3xl">
               <span class="text-[#083CB3]">VI</span>DA
             </span>
-            <!-- <span class="text-[0.5rem] text-[#80848B]">
+            <!-- <span class="text-[0.5rem] text-[#ffffffbf]">
               Vision Impairment Diagnostic Assistant
             </span> -->
           </a>
@@ -45,10 +45,10 @@
           </div>
           <div class="hidden lg:flex items-center">
             <div class="text-center">
-              <p class="text-base font-normal text-gray-500">
+              <p class="text-base font-normal text-gray-400">
                 {{ user.lastName }} {{ user.middleName }} {{ user.firstName }}
               </p>
-              <p class="text-[0.8rem]">
+              <p class="text-[0.8rem] text-gray-200">
                 {{ user.customId }}
               </p>
             </div>
@@ -64,19 +64,19 @@
         'translate-x-0': isSidebarOpen,
         '-translate-x-full': !isSidebarOpen
       }"
-      class="fixed left-0 top-0 z-20 h-full pt--[4rem] flex lg:flex flex-shrink-0 flex-col w-[15rem] transition-width duration-75 transform bg-[#F9FAFB] lg:translate-x-0"
+      class="fixed left-0 top-0 z-20 h-full pt--[4rem] flex lg:flex flex-shrink-0 flex-col w-[15rem] transition-width duration-75 transform bg-[#021930] lg:translate-x-0"
     >
-    <!-- <span class="text-[0.5rem] text-[#80848B]">
+      <!-- <span class="text-[0.5rem] text-[#ffffffbf]">
               Vision Impairment Diagnostic Assistant
             </span> -->
       <div class="flex-1 flex flex-col min-h-0 pt-4">
-        <div class="flex-1 px-3 bg-slate-50 divide-y space-y-1">
+        <div class="flex-1 px-3 bg-[#021930] divide-y space-y-1">
           <ul class="space-y-2 pb-2">
             <li>
               <a
                 [routerLink]="['overview']"
                 [routerLinkActive]="'active'"
-                class="text-[1.1rem] text-[#80848B] font-normal rounded-lg flex items-center p-2 group"
+                class="text-[1.1rem] text-[#ffffffbf] font-normal rounded-lg flex items-center p-2 group"
               >
                 <i class="pi pi-objects-column text-[1.1rem]"></i>
                 <span class="ml-3">Dashboard</span>
@@ -86,7 +86,7 @@
               <a
                 [routerLink]="['overview']"
                 [routerLinkActive]="'active'"
-                class="text-[1.1rem] text-[#80848B] font-normal rounded-lg flex items-center p-2 group"
+                class="text-[1.1rem] text-[#ffffffbf] font-normal rounded-lg flex items-center p-2 group"
               >
                 <i class="pi pi-objects-column text-[1.1rem]"></i>
                 <span class="ml-3">Overview</span>
@@ -96,7 +96,7 @@
               <a
                 [routerLink]="['patients']"
                 [routerLinkActive]="'active'"
-                class="text-[1.1rem] text-[#80848B] font-normal rounded-lg flex items-center p-2 group"
+                class="text-[1.1rem] text-[#ffffffbf] font-normal rounded-lg flex items-center p-2 group"
               >
                 <i class="pi pi-users text-[1.1rem]"></i>
                 <span class="ml-3">Patients</span>
@@ -106,7 +106,7 @@
               <a
                 [routerLink]="['patients-add']"
                 [routerLinkActive]="'active'"
-                class="text-[1.1rem] text-[#80848B] font-normal rounded-lg flex items-center p-2 group"
+                class="text-[1.1rem] text-[#ffffffbf] font-normal rounded-lg flex items-center p-2 group"
               >
                 <i class="pi pi-user-plus text-[1.1rem]"></i>
                 <span class="ml-3">Add Patient</span>
@@ -116,27 +116,27 @@
               <a
                 [routerLink]="['doctors']"
                 [routerLinkActive]="'active'"
-                class="text-[1.1rem] text-[#80848B] font-normal rounded-lg flex items-center p-2 group"
+                class="text-[1.1rem] text-[#ffffffbf] font-normal rounded-lg flex items-center p-2 group"
               >
                 <i class="pi pi-users text-[1.1rem]"></i>
                 <span class="ml-3">Doctors</span>
               </a>
             </li>
-            <li *ngIf="IS_ADMIN">
+            <!-- <li *ngIf="IS_ADMIN">
               <a
                 [routerLink]="['doctors-requests']"
                 [routerLinkActive]="'active'"
-                class="text-[1.1rem] text-[#80848B] font-normal rounded-lg flex items-center p-2 group"
+                class="text-[1.1rem] text-[#ffffffbf] font-normal rounded-lg flex items-center p-2 group"
               >
                 <i class="pi pi-bolt text-[1.1rem]"></i>
                 <span class="ml-3">Doctor Request</span>
               </a>
-            </li>
+            </li> -->
             <!-- * Dropdown -->
             <!-- <li>
               <button
                 (click)="toggleDropdown('patients')"
-                class="w-full text-[1.1rem] text-[#80848B] font-normal rounded-lg flex items-center p-2 group justify-between"
+                class="w-full text-[1.1rem] text-[#ffffffbf] font-normal rounded-lg flex items-center p-2 group justify-between"
                 type="button"
               >
                 <div class="flex items-center">
@@ -163,7 +163,7 @@
                   <a
                     [routerLink]="['patients']"
                     [routerLinkActive]="'active'"
-                    class="text-[1.1rem] text-[#80848B] font-normal rounded-lg flex items-center p-2 group"
+                    class="text-[1.1rem] text-[#ffffffbf] font-normal rounded-lg flex items-center p-2 group"
                   >
                     All Patients
                   </a>
@@ -172,7 +172,7 @@
                   <a
                     [routerLink]="['patients-add']"
                     [routerLinkActive]="'active'"
-                    class="text-[1.1rem] text-[#80848B] font-normal rounded-lg flex items-center p-2 group"
+                    class="text-[1.1rem] text-[#ffffffbf] font-normal rounded-lg flex items-center p-2 group"
                   >
                     Add Patient
                   </a>
@@ -183,7 +183,7 @@
               <a
                 [routerLink]="['settings']"
                 [routerLinkActive]="'active'"
-                class="text-[1.1rem] text-[#80848B] font-normal rounded-lg flex items-center p-2 group"
+                class="text-[1.1rem] text-[#ffffffbf] font-normal rounded-lg flex items-center p-2 group"
               >
                 <i class="pi pi-cog text-[1.1rem]"></i>
                 <span class="ml-3">Settings</span>
@@ -207,16 +207,18 @@
       (click)="toggleSidebar()"
     ></div>
 
-    <div class="h-full w-full bg-white relative overflow-y-auto lg:ml-64">
-      <main class="flex-1 p-20 min-h-[calc(100vh-10rem)]">
+    <div
+      class="h-full w-full bg-[#021930] relative overflow-y-auto lg:ml-[15rem]"
+    >
+      <main class="flex-1 px-10 pt-16 min-h-[calc(100vh-10rem)]">
         <p-confirmDialog />
         <router-outlet />
       </main>
 
       <footer
-        class="bg-white md:flex md:items-center md:justify-end shadow px-4 py-6 md:p-6 xl:p-8"
+        class="md:flex md:items-center md:justify-end shadow px-4 py-6 md:p-6 xl:p-8"
       >
-        <p class="text-sm text-gray-500 my-4 md:my-0">
+        <p class="text-sm text-gray-300 my-4 md:my-0">
           &copy; {{ currentYear }}
           <a href="https://andurar.com" target="_blank">Andurar</a>. All rights
           reserved.
