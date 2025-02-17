@@ -30,85 +30,101 @@
         </div>
       </div>
 
-      <form
-        [formGroup]="updateProfileForm"
-        class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-9"
-      >
-        <div class="col-span-1">
-          <div class="mb-5">
-            <label for="" class="text-gray-500 font-semibold">First Name</label>
-            <div class="card flex justify-content-center mt-1">
-              <input
-                type="text"
-                pInputText
-                class="w-full"
-                formControlName="firstName"
-              />
+      <form [formGroup]="updateProfileForm" (ngSubmit)="updateProfile()">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-9">
+          <div class="col-span-1">
+            <div class="mb-5">
+              <label for="" class="text-gray-500 font-semibold"
+                >First Name</label
+              >
+              <div class="card flex justify-content-center mt-1">
+                <input
+                  type="text"
+                  pInputText
+                  class="w-full"
+                  formControlName="firstName"
+                />
+              </div>
+            </div>
+            <div class="mb-5">
+              <label for="" class="text-gray-500 font-semibold"
+                >Last Name</label
+              >
+              <div class="card flex justify-content-center mt-1">
+                <input
+                  type="text"
+                  pInputText
+                  class="w-full"
+                  formControlName="lastName"
+                />
+              </div>
+            </div>
+            <div class="mb-5">
+              <label for="" class="text-gray-500 font-semibold"
+                >Phone Number</label
+              >
+              <div class="card flex justify-content-center mt-1">
+                <input
+                  type="text"
+                  pInputText
+                  class="w-full"
+                  formControlName="phoneNumber"
+                />
+              </div>
             </div>
           </div>
-          <div class="mb-5">
-            <label for="" class="text-gray-500 font-semibold">Last Name</label>
-            <div class="card flex justify-content-center mt-1">
-              <input
-                type="text"
-                pInputText
-                class="w-full"
-                formControlName="lastName"
-              />
+          <div class="col-span-1">
+            <div class="mb-5">
+              <label for="" class="text-gray-500 font-semibold">
+                Middle Name
+              </label>
+              <div class="card flex justify-content-center mt-1">
+                <input
+                  type="text"
+                  pInputText
+                  class="w-full"
+                  formControlName="middleName"
+                />
+              </div>
             </div>
-          </div>
-          <div class="mb-5">
-            <label for="" class="text-gray-500 font-semibold"
-              >Phone Number</label
-            >
-            <div class="card flex justify-content-center mt-1">
-              <input
-                type="text"
-                pInputText
-                class="w-full"
-                formControlName="phoneNumber"
-              />
+            <div class="mb-5">
+              <label for="" class="text-gray-500 font-semibold">
+                Email Address
+              </label>
+              <div class="card flex justify-content-center mt-1">
+                <input
+                  type="text"
+                  pInputText
+                  class="w-full"
+                  formControlName="email"
+                />
+              </div>
+            </div>
+            <div class="mb-5">
+              <label for="" class="text-gray-500 font-semibold"
+                >Licence Id</label
+              >
+              <div class="card flex justify-content-center mt-1">
+                <input
+                  type="text"
+                  pInputText
+                  class="w-full"
+                  formControlName="licenceId"
+                />
+              </div>
             </div>
           </div>
         </div>
-        <div class="col-span-1">
-          <div class="mb-5">
-            <label for="" class="text-gray-500 font-semibold">
-              Middle Name
-            </label>
-            <div class="card flex justify-content-center mt-1">
-              <input
-                type="text"
-                pInputText
-                class="w-full"
-                formControlName="middleName"
-              />
-            </div>
-          </div>
-          <div class="mb-5">
-            <label for="" class="text-gray-500 font-semibold">
-              Email Address
-            </label>
-            <div class="card flex justify-content-center mt-1">
-              <input
-                type="text"
-                pInputText
-                class="w-full"
-                formControlName="email"
-              />
-            </div>
-          </div>
-          <div class="mb-5">
-            <label for="" class="text-gray-500 font-semibold">Licence Id</label>
-            <div class="card flex justify-content-center mt-1">
-              <input
-                type="text"
-                pInputText
-                class="w-full"
-                formControlName="licenceId"
-              />
-            </div>
-          </div>
+
+        <div class="text-end">
+          <button
+            class="bg-[#083CB3] text-[#083CB3] border rounded-md p-2"
+            [disabled]="loading"
+            type="submit"
+          >
+            <span class="loading" *ngIf="loading"></span>
+            {{ loading ? "Please wait..." : "Save Comment" }}
+          </button>
         </div>
       </form>
     </div>
@@ -151,7 +167,7 @@
             />
           </div>
         </div>
-        <div class="text-center">
+        <div class="text-end">
           <p-button
             type="button"
             label="Change Password"

@@ -8,6 +8,7 @@ import { DoctorsComponent } from '@app/doctors/doctors.component';
 import { LandingPageComponent } from '@app/landing-page/landing-page.component';
 import { OverviewComponent } from '@app/overview/overview.component';
 import { AddPatientComponent } from '@app/patients/add-patient/add-patient.component';
+import { MedicalRecordsComponent } from '@app/patients/medical-records/medical-records.component';
 import { PatientsComponent } from '@app/patients/patients.component';
 import { SettingsComponent } from '@app/settings/settings.component';
 import { authGuard } from './core/guard/auth.guard';
@@ -68,6 +69,11 @@ export const routes: Routes = [
         path: 'patients-add',
         title: 'Add Patient | Vision Impairment Diagnostic Assistant',
         component: AddPatientComponent,
+      },
+      {
+        path: 'patients/:id/medical-records',
+        title: 'Patient Details | Vision Impairment Diagnostic Assistant',
+        component: MedicalRecordsComponent,
       },
       {
         path: 'doctors',

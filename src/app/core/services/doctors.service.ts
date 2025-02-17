@@ -12,4 +12,8 @@ export class DoctorsService {
   getDoctors(): Observable<DoctorRecordResponse> {
     return this.apiService.get<DoctorRecordResponse>('users/all');
   }
+
+  updateDoctorProfile(id: number, data: any): Observable<any> {
+    return this.apiService.patch(`users/update/${id}`, data);
+  }
 }

@@ -42,6 +42,7 @@ export class PatientDetailsComponent implements OnInit {
     }
   }
   @Input() sidebarVisible: boolean = false;
+  @Input() patientId: string = '';
   @Output() close = new EventEmitter<void>();
 
   runAnalysisVisible: boolean = false;
@@ -59,7 +60,15 @@ export class PatientDetailsComponent implements OnInit {
 
   constructor(private patientsService: PatientsService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (this.patientId) {
+      this.patientsService.getPatient(this.patientId).subscribe((res) => {
+        this.sidebarVisible = true;
+        // this._patient = res.data;
+        console.log(res.data);
+      });
+    }
+  }
 
   calculateAge = calculateAge;
 
@@ -68,6 +77,12 @@ export class PatientDetailsComponent implements OnInit {
       this.loading = true;
       this.patientsService.getMedicalRecords(this._patient.id).subscribe(
         (res) => {
+          // * sort by date
+          res.data.content.sort((a, b) => {
+            return (
+              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+            );
+          });
           this.medRecords = res.data.content;
           this.loading = false;
         },

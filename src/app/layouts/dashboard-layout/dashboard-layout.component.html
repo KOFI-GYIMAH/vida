@@ -22,13 +22,13 @@
               ></path>
             </svg>
           </button>
-          <a href="#" class="flex flex-col items-center lg:ml-2.5">
-            <span class="self-center whitespace-nowrap font-bold text-4xl">
+          <a href="#" class="flex flex-col items-cente-r lg:ml-2.5">
+            <span class="self--center whitespace-nowrap font-bold text-3xl">
               <span class="text-[#083CB3]">VI</span>DA
             </span>
-            <span class="text-[0.7rem] text-[#80848B]">
+            <!-- <span class="text-[0.5rem] text-[#80848B]">
               Vision Impairment Diagnostic Assistant
-            </span>
+            </span> -->
           </a>
         </div>
         <div class="flex items-center gap-3">
@@ -39,7 +39,7 @@
               <div
                 class="w-11 h-11 rounded-full bg-gray-200 flex items-center justify-center"
               >
-                <i class="pi pi-user text-gray-500"></i>
+                <i class="pi pi-user text-gray-500 text-[1.1rem]"></i>
               </div>
             </button>
           </div>
@@ -58,14 +58,17 @@
     </div>
   </nav>
 
-  <div class="flex overflow-hidden pt-[5rem]">
+  <div class="flex overflow-hidden pt--[5rem]">
     <aside
       [ngClass]="{
         'translate-x-0': isSidebarOpen,
         '-translate-x-full': !isSidebarOpen
       }"
-      class="fixed left-0 top-0 z-20 h-full pt-[5rem] flex lg:flex flex-shrink-0 flex-col w-64 transition-width duration-75 transform bg-[#F9FAFB] lg:translate-x-0"
+      class="fixed left-0 top-0 z-20 h-full pt--[4rem] flex lg:flex flex-shrink-0 flex-col w-[15rem] transition-width duration-75 transform bg-[#F9FAFB] lg:translate-x-0"
     >
+    <!-- <span class="text-[0.5rem] text-[#80848B]">
+              Vision Impairment Diagnostic Assistant
+            </span> -->
       <div class="flex-1 flex flex-col min-h-0 pt-4">
         <div class="flex-1 px-3 bg-slate-50 divide-y space-y-1">
           <ul class="space-y-2 pb-2">
@@ -73,19 +76,29 @@
               <a
                 [routerLink]="['overview']"
                 [routerLinkActive]="'active'"
-                class="text-[1.15rem] text-[#80848B] font-normal rounded-lg flex items-center p-2 group"
+                class="text-[1.1rem] text-[#80848B] font-normal rounded-lg flex items-center p-2 group"
               >
-                <i class="pi pi-objects-column"></i>
+                <i class="pi pi-objects-column text-[1.1rem]"></i>
                 <span class="ml-3">Dashboard</span>
+              </a>
+            </li>
+            <li>
+              <a
+                [routerLink]="['overview']"
+                [routerLinkActive]="'active'"
+                class="text-[1.1rem] text-[#80848B] font-normal rounded-lg flex items-center p-2 group"
+              >
+                <i class="pi pi-objects-column text-[1.1rem]"></i>
+                <span class="ml-3">Overview</span>
               </a>
             </li>
             <li>
               <a
                 [routerLink]="['patients']"
                 [routerLinkActive]="'active'"
-                class="text-[1.15rem] text-[#80848B] font-normal rounded-lg flex items-center p-2 group"
+                class="text-[1.1rem] text-[#80848B] font-normal rounded-lg flex items-center p-2 group"
               >
-                <i class="pi pi-users"></i>
+                <i class="pi pi-users text-[1.1rem]"></i>
                 <span class="ml-3">Patients</span>
               </a>
             </li>
@@ -93,9 +106,9 @@
               <a
                 [routerLink]="['patients-add']"
                 [routerLinkActive]="'active'"
-                class="text-[1.15rem] text-[#80848B] font-normal rounded-lg flex items-center p-2 group"
+                class="text-[1.1rem] text-[#80848B] font-normal rounded-lg flex items-center p-2 group"
               >
-                <i class="pi pi-users"></i>
+                <i class="pi pi-user-plus text-[1.1rem]"></i>
                 <span class="ml-3">Add Patient</span>
               </a>
             </li>
@@ -103,9 +116,9 @@
               <a
                 [routerLink]="['doctors']"
                 [routerLinkActive]="'active'"
-                class="text-[1.15rem] text-[#80848B] font-normal rounded-lg flex items-center p-2 group"
+                class="text-[1.1rem] text-[#80848B] font-normal rounded-lg flex items-center p-2 group"
               >
-                <i class="pi pi-users"></i>
+                <i class="pi pi-users text-[1.1rem]"></i>
                 <span class="ml-3">Doctors</span>
               </a>
             </li>
@@ -113,9 +126,9 @@
               <a
                 [routerLink]="['doctors-requests']"
                 [routerLinkActive]="'active'"
-                class="text-[1.15rem] text-[#80848B] font-normal rounded-lg flex items-center p-2 group"
+                class="text-[1.1rem] text-[#80848B] font-normal rounded-lg flex items-center p-2 group"
               >
-                <i class="pi pi-users"></i>
+                <i class="pi pi-bolt text-[1.1rem]"></i>
                 <span class="ml-3">Doctor Request</span>
               </a>
             </li>
@@ -123,11 +136,11 @@
             <!-- <li>
               <button
                 (click)="toggleDropdown('patients')"
-                class="w-full text-[1.15rem] text-[#80848B] font-normal rounded-lg flex items-center p-2 group justify-between"
+                class="w-full text-[1.1rem] text-[#80848B] font-normal rounded-lg flex items-center p-2 group justify-between"
                 type="button"
               >
                 <div class="flex items-center">
-                  <i class="pi pi-users"></i>
+                  <i class="pi pi-users text-[1.1rem]"></i>
                   <span class="ml-3">Patients</span>
                 </div>
                 <svg
@@ -150,7 +163,7 @@
                   <a
                     [routerLink]="['patients']"
                     [routerLinkActive]="'active'"
-                    class="text-[1.15rem] text-[#80848B] font-normal rounded-lg flex items-center p-2 group"
+                    class="text-[1.1rem] text-[#80848B] font-normal rounded-lg flex items-center p-2 group"
                   >
                     All Patients
                   </a>
@@ -159,7 +172,7 @@
                   <a
                     [routerLink]="['patients-add']"
                     [routerLinkActive]="'active'"
-                    class="text-[1.15rem] text-[#80848B] font-normal rounded-lg flex items-center p-2 group"
+                    class="text-[1.1rem] text-[#80848B] font-normal rounded-lg flex items-center p-2 group"
                   >
                     Add Patient
                   </a>
@@ -170,9 +183,9 @@
               <a
                 [routerLink]="['settings']"
                 [routerLinkActive]="'active'"
-                class="text-[1.15rem] text-[#80848B] font-normal rounded-lg flex items-center p-2 group"
+                class="text-[1.1rem] text-[#80848B] font-normal rounded-lg flex items-center p-2 group"
               >
-                <i class="pi pi-cog"></i>
+                <i class="pi pi-cog text-[1.1rem]"></i>
                 <span class="ml-3">Settings</span>
               </a>
             </li>
@@ -195,38 +208,19 @@
     ></div>
 
     <div class="h-full w-full bg-white relative overflow-y-auto lg:ml-64">
-      <main class="flex-1 p-10 min-h-[calc(100vh-10rem)]">
+      <main class="flex-1 p-20 min-h-[calc(100vh-10rem)]">
         <p-confirmDialog />
         <router-outlet />
       </main>
 
       <footer
-        class="bg-white md:flex md:items-center md:justify-between shadow px-4 py-6 md:p-6 xl:p-8"
+        class="bg-white md:flex md:items-center md:justify-end shadow px-4 py-6 md:p-6 xl:p-8"
       >
-        <p class="text-center text-sm text-gray-500 my-4 md:my-0">
+        <p class="text-sm text-gray-500 my-4 md:my-0">
           &copy; {{ currentYear }}
           <a href="https://andurar.com" target="_blank">Andurar</a>. All rights
           reserved.
         </p>
-        <ul
-          class="flex flex-wrap items-center justify-center space-x-4 md:justify-end"
-        >
-          <li>
-            <a href="#" class="text-sm text-gray-500 hover:text-gray-900">
-              About
-            </a>
-          </li>
-          <li>
-            <a href="#" class="text-sm text-gray-500 hover:text-gray-900">
-              Privacy Policy
-            </a>
-          </li>
-          <li>
-            <a href="#" class="text-sm text-gray-500 hover:text-gray-900">
-              Contact
-            </a>
-          </li>
-        </ul>
       </footer>
     </div>
   </div>

@@ -43,11 +43,11 @@
     <ng-template pTemplate="header">
       <tr>
         <th>No</th>
-        <th style="min-width: 5rem">
+        <!-- <th style="min-width: 5rem">
           <div class="flex justify-content-between align-items-center">
             Patient Id
           </div>
-        </th>
+        </th> -->
         <th pSortableColumn="firstName" style="min-width: 10rem">
           <div class="flex justify-between items-center">
             Name
@@ -57,11 +57,11 @@
         <th style="min-width: 3rem">
           <div class="flex justify-content-between align-items-center">Age</div>
         </th>
-        <th style="min-width: 10rem">
+        <!-- <th style="min-width: 10rem">
           <div class="flex justify-content-between align-items-center">
             Email Address
           </div>
-        </th>
+        </th> -->
         <th style="min-width: 8rem">
           <div class="flex justify-content-between align-items-center">
             Phone Number
@@ -86,9 +86,9 @@
     <ng-template pTemplate="body" let-patient let-rowIndex="rowIndex">
       <tr class="p-selectable-row">
         <td>{{ rowIndex + 1 }}.</td>
-        <td class="font-medium">
+        <!-- <td class="font-medium">
           {{ patient.customId }}
-        </td>
+        </td> -->
         <td>
           <span class="align-middle capitalize">
             {{ patient.lastName }} {{ patient.middleName }}
@@ -96,11 +96,11 @@
           </span>
         </td>
         <td>{{ calculateAge(patient?.dob?.split("T")[0]) }}</td>
-        <td>
+        <!-- <td>
           <p class="ml-1 align-middle text--blue-700">
             <a href="mailto:{{ patient.email }}"> {{ patient.email }}</a>
           </p>
-        </td>
+        </td> -->
         <td>
           <p class="ml-1 align-middle">
             <a href="tel:{{ patient.phoneNumber }}">
@@ -118,11 +118,18 @@
           />
         </td>
         <td style="text-align: center">
+          <p-menu #menu [model]="items" [popup]="true" appendTo="body" />
           <p-button
+            (onClick)="menu.toggle($event)"
+            icon="pi pi-ellipsis-v"
+            severity="secondary"
+            (onClick)="setActivePatient(patient)"
+          />
+          <!-- <p-button
             severity="secondary"
             icon="pi pi-eye"
             (onClick)="setActivePatient(patient)"
-          />
+          /> -->
         </td>
       </tr>
     </ng-template>

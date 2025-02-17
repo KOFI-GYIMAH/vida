@@ -18,6 +18,10 @@ export class PatientsService {
     return this.apiService.get<PatientRecordResponse>('patients');
   }
 
+  getPatient(id: string): Observable<any> {
+    return this.apiService.get(`patients/${id}`);
+  }
+
   addPatient(patient: PatientPayload): Observable<AddPatientResponse> {
     return this.apiService.post('patients/register', patient);
   }
@@ -31,7 +35,7 @@ export class PatientsService {
 
   getMedicalRecords(id: string): Observable<MedicalRecordResponse> {
     return this.apiService.get<MedicalRecordResponse>(
-      `reports/patients/${id}/paginated?page=0&size=5`
+      `reports/patients/${id}/paginated`
     );
   }
 }

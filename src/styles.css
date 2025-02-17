@@ -22,11 +22,22 @@
 .p-inputtext::placeholder {
   color: #989595;
 }
+/* 
+.active {
+  color: #0a3cb3;
+  background-color: 'bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600';
+  font-weight: 600;
+} */
 
 .active {
   color: #0a3cb3;
   font-weight: 600;
+  /* color: #0a3cb3;
+  font-weight: 600;
+  background: linear-gradient(to right, #2563eb, #9333ea); */
 }
+
+/* @apply .active bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600; */
 
 .box-shadow {
   box-shadow: rgba(0, 0, 0, 0.09) 0px 3px 12px;
@@ -47,14 +58,20 @@
 }
 
 .p-tag.p-tag-success {
-  color: #188A42;
-  background-color: #CAF1D8;
+  color: #188a42;
+  background-color: #caf1d8;
 }
 
 @keyframes gradient {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .animate-gradient {
@@ -63,11 +80,47 @@
 }
 
 @keyframes progress {
-  0% { transform: translateX(-100%); }
-  50% { transform: translateX(0); }
-  100% { transform: translateX(100%); }
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 .animate-progress {
   animation: progress 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loading {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid #ffffff;
+  border-radius: 50%;
+  border-top-color: transparent;
+  animation: spin 1s linear infinite;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+.responsive-dialog {
+  width: 80%;
+}
+
+@media (max-width: 768px) {
+  .responsive-dialog {
+    width: 100%;
+  }
 }

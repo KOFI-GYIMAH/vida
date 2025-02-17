@@ -1,79 +1,72 @@
-<div class="card flex justify-content-center">
-  <p-sidebar
-    [(visible)]="sidebarVisible"
-    [fullScreen]="true"
-    (onHide)="onClose()"
-  >
-    <ng-template pTemplate="header">
-      <span class="font-bold text-md md:text-2xl capitalize">
-        {{ patient.lastName }} {{ patient.middleName }}
-        {{ patient.firstName }} Medical Records
-      </span>
-    </ng-template>
-    <div
-      class="block md:grid grid-cols-5 mt-10 gap-10"
-      *ngIf="patient !== undefined"
-    >
-      <div class="col-span-1 mb-5 md:mb-0">
-        <div class="shadow-lg rounded-lg bg-white px-6 py-9">
-          <div class="flex flex-col justify-center items-center mb-5">
-            <img
-              src="https://www.gravatar.com/avatar/2c7d99fe281ecd3bcd65ab915bac6dd5?s=250"
-              alt="Patient"
-              class="w-28 h-28 object-cover rounded-md mb-2"
-            />
-            <p class="font-semibold text-md capitalize">
-              {{ patient.lastName }} {{ patient.middleName }}
-              {{ patient.firstName }}
-            </p>
-            <p class="text-gray-500">Age: {{ calculateAge(patient.dob) }}</p>
-          </div>
+<!-- <div class="card flex justify-content-center"> -->
+<p-sidebar [(visible)]="sidebarVisible" (onHide)="onClose()">
+  <!-- <ng-template pTemplate="header">
+    <span class="font-bold text-md md:text-2xl capitalize">
+      {{ patient.lastName }} {{ patient.middleName }}
+      {{ patient.firstName }} Medical Records
+    </span>
+  </ng-template> -->
+  <div class="mt-10 gap-10" *ngIf="patient !== undefined">
+    <div class="mb-5 md:mb-0">
+      <!-- <div class="shadow-lg rounded-lg bg-white px-6 py-9"> -->
+      <div class="flex flex-col justify-center items-center mb-5">
+        <img
+          [src]="'https://api.dicebear.com/9.x/initials/svg?seed=' + patient.firstName"
+          alt="Patient"
+          class="w-28 h-28 object-cover rounded-md mb-2"
+        />
+        <p class="font-semibold text-md capitalize">
+          {{ patient.lastName }} {{ patient.middleName }}
+          {{ patient.firstName }}
+        </p>
+        <p class="text-gray-500">Age: {{ calculateAge(patient.dob) }}</p>
+      </div>
+      <div>
+        <p class="text-gray-500 text-sm mb-6">Basic Information</p>
+        <div class="flex gap-2 items-start mb-5">
+          <i class="pi pi-venus mt-1"></i>
           <div>
-            <p class="text-gray-500 text-sm mb-6">Basic Information</p>
-            <div class="flex gap-2 items-start mb-5">
-              <i class="pi pi-venus mt-1"></i>
-              <div>
-                <p class="text-gray-500 text-[0.8rem]">Gender</p>
-                <p class="font-semibold text-[0.9rem]">{{ patient.gender }}</p>
-              </div>
-            </div>
-            <div class="flex gap-2 items-start mb-5">
-              <i class="pi pi-calendar mt-1"></i>
-              <div>
-                <p class="text-gray-500 text-[0.8rem]">Date of Birth</p>
-                <p class="font-semibold text-[0.9rem]">{{ patient.dob }}</p>
-              </div>
-            </div>
-            <div class="flex gap-2 items-start mb-5">
-              <i class="pi pi-phone mt-1"></i>
-              <div>
-                <p class="text-gray-500 text-[0.8rem]">Phone Number</p>
-                <p class="font-semibold text-[0.9rem]">
-                  {{ patient.phoneNumber }}
-                </p>
-              </div>
-            </div>
-            <div class="flex gap-2 items-start mb-5">
-              <i class="pi pi-envelope mt-1"></i>
-              <div>
-                <p class="text-gray-500 text-[0.8rem]">Email</p>
-                <p class="font-semibold text-[0.9rem]">{{ patient.email }}</p>
-              </div>
-            </div>
-            <div class="flex gap-2 items-start mb-5">
-              <i class="pi pi-map-marker mt-1"></i>
-              <div>
-                <p class="text-gray-500 text-[0.8rem]">Address</p>
-                <p class="font-semibold text-[0.9rem]">
-                  Ghana, Greater Accra Region
-                </p>
-              </div>
-            </div>
+            <p class="text-gray-500 text-[0.8rem]">Gender</p>
+            <p class="font-semibold text-[0.9rem]">{{ patient.gender }}</p>
+          </div>
+        </div>
+        <div class="flex gap-2 items-start mb-5">
+          <i class="pi pi-calendar mt-1"></i>
+          <div>
+            <p class="text-gray-500 text-[0.8rem]">Date of Birth</p>
+            <p class="font-semibold text-[0.9rem]">{{ patient.dob }}</p>
+          </div>
+        </div>
+        <div class="flex gap-2 items-start mb-5">
+          <i class="pi pi-phone mt-1"></i>
+          <div>
+            <p class="text-gray-500 text-[0.8rem]">Phone Number</p>
+            <p class="font-semibold text-[0.9rem]">
+              {{ patient.phoneNumber }}
+            </p>
+          </div>
+        </div>
+        <div class="flex gap-2 items-start mb-5">
+          <i class="pi pi-envelope mt-1"></i>
+          <div>
+            <p class="text-gray-500 text-[0.8rem]">Email</p>
+            <p class="font-semibold text-[0.9rem]">{{ patient.email }}</p>
+          </div>
+        </div>
+        <div class="flex gap-2 items-start mb-5">
+          <i class="pi pi-map-marker mt-1"></i>
+          <div>
+            <p class="text-gray-500 text-[0.8rem]">Address</p>
+            <p class="font-semibold text-[0.9rem]">
+              Ghana, Greater Accra Region
+            </p>
           </div>
         </div>
       </div>
+      <!-- </div> -->
+    </div>
 
-      <div class="col-span-4">
+    <!-- <div class="col-span-4">
         <div class="card shadow-lg rounded-lg bg-white px-6 py-9">
           <div class="flex justify-between items-center mb-5">
             <p class="text-gray-600 font-bold text-md md:text-lg">
@@ -300,12 +293,12 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </p-sidebar>
-</div>
+      </div> -->
+  </div>
+</p-sidebar>
+<!-- </div> -->
 
-<div class="card flex justify-content-center">
+<!-- <div class="card flex justify-content-center">
   <p-dialog
     [header]="'Analysis Results'"
     [modal]="true"
@@ -342,7 +335,7 @@
           <div>
             <img
               [src]="image.imageUrl"
-              class="h-[15rem] w-full object-contain"
+              class="h-[15rem] w-full object-containc"
               alt=""
             />
           </div>
@@ -364,8 +357,8 @@
       </div>
     </div>
   </p-dialog>
-</div>
+</div> -->
 
-<div *ngIf="patient !== undefined">
+<!-- <div *ngIf="patient !== undefined">
   <app-run-analysis [visible]="runAnalysisVisible" [patientId]="patient.id" />
-</div>
+</div> -->

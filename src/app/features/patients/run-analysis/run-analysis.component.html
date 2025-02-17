@@ -2,17 +2,18 @@
   header="Upload Retina Images"
   [modal]="true"
   [(visible)]="visible"
-  [style]="{ width: '90%' }"
+  [style]="{ width: '50%' }"
+  (onHide)="onClose.emit()"
 >
   <div class="container mx-auto w-full bg-white p-8 rounded-lg">
-    <div class="text-center mb-6">
+    <!-- <div class="text-center mb-6">
       <p class="text-gray-600">Upload multiple images on each side</p>
-    </div>
+    </div> -->
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <div class="grid grid-cols-1 lg:-grid-cols-2 gap-8">
       <div class="border border-gray-200 rounded-lg p-5">
         <div class="flex justify-between items-center mb-4">
-          <h2 class="text-lg text-gray-700">Left Images</h2>
+          <!-- <h2 class="text-lg text-gray-700">Left Images</h2> -->
           <div class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm">
             {{ leftImages.size }} images
           </div>
@@ -86,17 +87,11 @@
             <p class="text-gray-600 text-xs">
               Confidence: {{ image.analysis?.confidence }}%
             </p>
-            <input
-              type="text"
-              class="w-full mt-2 p-2 border border-gray-300 rounded-lg text-sm"
-              placeholder="Enter final comment"
-              [(ngModel)]="image.inferenceComment"
-            />
           </div>
         </div>
       </div>
 
-      <div class="border border-gray-200 rounded-lg p-5">
+      <!-- <div class="border border-gray-200 rounded-lg p-5">
         <div class="flex justify-between items-center mb-4">
           <h2 class="text-lg text-gray-700">Right Images</h2>
           <div class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm">
@@ -172,15 +167,9 @@
             <p class="text-gray-600 text-xs">
               Confidence: {{ image.analysis?.confidence }}%
             </p>
-            <input
-              type="text"
-              class="w-full mt-2 p-2 border border-gray-300 rounded-lg text-sm"
-              placeholder="Enter final comment"
-              [(ngModel)]="image.inferenceComment"
-            />
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
 
     <button
@@ -200,6 +189,75 @@
     >
       <span class="loading" *ngIf="isProcessing"></span>
       {{ isProcessing ? "Processing..." : "Run Analysis" }}
+    </button>
+  </div>
+</p-dialog>
+
+<p-dialog
+  header="Inference Comment"
+  [modal]="true"
+  [(visible)]="showInferenceCommentDialog"
+  [style]="{ width: '50%' }"
+  (onHide)="onClose.emit()"
+>
+  <div class="container mx-auto w-full bg-white p-8 rounded-lg">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div class="grid grid-cols-1 md-:grid-cols-2 gap-4 mt-5">
+        <!-- <div
+          *ngFor="let image of rightImagesArray"
+          class="relative aspect-square rounded-lg overflow-hidden border border-gray-200"
+        >
+          <img
+            [src]="image.preview"
+            class="w-full h-full object-cover"
+            alt="Preview"
+          />
+        </div> -->
+        <div
+          *ngFor="let image of leftImagesArray"
+          class="relative aspect-square rounded-lg overflow-hidden border border-gray-200"
+        >
+          <img
+            [src]="image.preview"
+            class="w-full h-full object-cover"
+            alt="Preview"
+          />
+          <button
+            class="absolute top-2 right-2 bg-red-500/80 hover:bg-red-500 text-white w-6 h-6 rounded-full flex items-center justify-center text-sm transition-colors"
+            (click)="removeImage('left', image.id)"
+          >
+            ×
+          </button>
+        </div>
+        <div
+          *ngFor="let image of leftImagesArray"
+          class="bg-blue-50 p-3 rounded-lg text-sm"
+          [hidden]="!image.analysis"
+        >
+          <h4 class="text-gray-800 mb-1">{{ image.analysis?.prediction }}</h4>
+          <p class="text-gray-600 text-xs">
+            Confidence: {{ image.analysis?.confidence }}%
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <textarea
+        type="text"
+        class="w-full mt-2 p-2 border border-gray-300 rounded-lg text-sm"
+        placeholder="Enter final comment"
+        [(ngModel)]="inferenceComment"
+      ></textarea>
+    </div>
+
+    <button
+      class="w-full mt-6 bg-blue-500 hover:bg-blue-600 text-white py-3 px-6 rounded-lg text-base transition-colors"
+      [disabled]="isSavingComment"
+      (click)="submitFinalComments()"
+    >
+      <span class="loading" *ngIf="isSavingComment"></span>
+      {{ isSavingComment ? "Please wait..." : "Save Comment" }}
     </button>
   </div>
 </p-dialog>

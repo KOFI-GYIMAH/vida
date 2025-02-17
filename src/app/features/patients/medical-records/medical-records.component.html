@@ -1,0 +1,163 @@
+<app-run-analysis
+  *ngIf="runAnalysisVisible && patientId"
+  [visible]="runAnalysisVisible"
+  [patientId]="patientId"
+  (onClose)="onRunAnalysisClose()"
+/>
+
+<!-- Patient Medical medRecords -->
+<div class="card rounded-lg bg-white py-9">
+  <div class="flex justify-between items-center mb-5">
+    <p class="text-gray-600 font-bold text-md md:text-lg">Medical History</p>
+    <div class="flex items-center">
+      <p-button
+        type="button"
+        label="RUN ANALYSIS"
+        styleClass="outline outline-[#E1EEEE] bg-[#CAF1D8] text-black border-none text-sm"
+        (click)="openCreateMedRecordModal()"
+      />
+    </div>
+  </div>
+
+  <app-table-skeleton
+    *ngIf="loading"
+    [rows]="5"
+    [columns]="4"
+    [hasHeader]="true"
+    [columnWidths]="['100px', '2fr', '1fr', '1fr']"
+  />
+
+  <p-table
+    *ngIf="!loading"
+    #dt
+    [value]="medRecords"
+    dataKey="id"
+    [rowHover]="true"
+    [rows]="10"
+    [paginator]="true"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th>No</th>
+        <th style="min-width: 8rem">
+          <div class="flex justify-content-between align-items-center">
+            Record Id
+          </div>
+        </th>
+        <th pSortableColumn="firstName" style="min-width: 14rem">
+          <div class="flex justify-between items-center">Diagnosis</div>
+        </th>
+        <th style="min-width: 5rem">
+          <div class="flex justify-content-between align-items-center">
+            Total Images
+          </div>
+        </th>
+        <th pSortableColumn="gender" style="min-width: 7rem">
+          <div class="flex justify-content-between align-items-center">
+            Created At
+            <p-sortIcon field="gender" />
+          </div>
+        </th>
+        <th style="width: 5rem"></th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-record let-rowIndex="rowIndex">
+      <tr class="p-selectable-row">
+        <td>{{ rowIndex + 1 }}.</td>
+        <td class="font-semibold">
+          {{ record.customId }}
+        </td>
+        <td>
+          <span class="ml-1 align-middle">
+            {{ record.diagnosis }}
+          </span>
+        </td>
+        <td>
+          <span class="ml-1 align-middle">{{ record.images.length }}</span>
+        </td>
+        <td>
+          {{ record.createdAt | date : "MM/dd/yyyy" }}
+        </td>
+        <td style="text-align: center">
+          <p-button
+            severity="secondary"
+            icon="pi pi-eye"
+            (onClick)="showDialog(record)"
+          />
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="8">No record found.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<!-- Analysis Results -->
+<div class="card flex justify-content-center">
+  <p-dialog
+    [header]="'Analysis Results'"
+    [modal]="true"
+    [(visible)]="visible"
+    [style]="{ width: '60%' }"
+  >
+    <div
+      *ngIf="
+        selectedRecord !== undefined &&
+        selectedRecord.images !== undefined &&
+        selectedRecord.images.length > 0
+      "
+    >
+      <div class="mb-10 flex justify-end">
+        <p-button
+          *ngIf="selectedRecord.referrable"
+          severity="danger"
+          label="Referral Needed"
+        />
+      </div>
+      <div>
+        <p class="font-bold">Doctor Note</p>
+        <p>
+          {{ selectedRecord.doctorNotes }}
+        </p>
+      </div>
+      <div *ngFor="let image of selectedRecord.images">
+        <p class="text-gray-600 my-1 font-semibold flex justify-end">
+          {{ image.position || "Left" }} Side
+        </p>
+        <div
+          class="flex items-center justify-center gap-10 mb-10 border rounded-md p-5"
+        >
+          <div>
+            <img
+              [src]="image.imageUrl"
+              class="h-[15rem] w-[25rem] object-contain"
+              alt=""
+            />
+          </div>
+          <div class="w-full">
+            <div class="mb-10">
+              <p class="text-lg text-gray-500 mb-2 font-semibold">
+                Confidence Score {{ convertToPercentage(image.confidence) }}
+              </p>
+              <app-progress-bar
+                [progress]="convertToPercentage(image.confidence)"
+              />
+            </div>
+            <div class="mb-10">
+              <p class="text-lg text-gray-500 mb-2 font-semibold">Condition</p>
+              <p>{{ image.inferenceResult }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </p-dialog>
+</div>
+
+<!-- Patient Details -->
+<app-patient-details />

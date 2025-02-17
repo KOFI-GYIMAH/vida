@@ -33,6 +33,14 @@ const DiabeticStatus: DiabeticStatus[] = [
   { name: 'No', value: 'No' },
 ];
 
+// const DiabetesTypes = [
+//   { name: 'Type 1', value: 'Type 1' },
+//   { name: 'Type 2', value: 'Type 2' },
+//   { name: 'Prediabetes', value: 'Prediabetes' },
+//   { name: 'Monogenic', value: 'Monogenic' },
+//   { name: 'Secondary', value: 'Secondary' },
+// ];
+
 @Component({
   selector: 'app-add-patient',
   standalone: true,
@@ -59,6 +67,14 @@ export class AddPatientComponent implements OnInit {
   diabeticStatusOptions: DiabeticStatus[] = DiabeticStatus;
   diabeticStatus: boolean = false;
 
+  DiabetesTypes = [
+    { name: 'Type 1', value: 'Type 1' },
+    { name: 'Type 2', value: 'Type 2' },
+    { name: 'Prediabetes', value: 'Prediabetes' },
+    { name: 'Monogenic', value: 'Monogenic' },
+    { name: 'Secondary', value: 'Secondary' },
+  ];
+
   addPatientForm: FormGroup = new FormGroup({
     firstName: new FormControl<string>('', [
       Validators.required,
@@ -78,7 +94,7 @@ export class AddPatientComponent implements OnInit {
     insuranceStartDate: new FormControl<string>(''),
     insuranceEndDate: new FormControl<string>(''),
     diabeticStatus: new FormControl<DiabeticStatus | null>(null),
-    diabeticType: new FormControl<string>(''),
+    diabeticType: new FormControl<DiabeticStatus | null>(null),
     diabeticDiagnoseDate: new FormControl<string>(''),
     currentRegimen: new FormControl<string>(''),
     diabeticFamilyHistory: new FormControl<string>(''),
@@ -117,16 +133,18 @@ export class AddPatientComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.addPatientForm.invalid) return;
+    // if (this.addPatientForm.invalid) return;
 
     const formValue = this.addPatientForm.value;
     const payload = {
       ...formValue,
       gender: formValue.gender?.value,
       diabeticStatus: formValue.diabeticStatus?.value,
+      diabeticType: formValue.diabeticType?.value,
       dob: formValue.dob?.toISOString()?.split('T')[0],
     };
+    console.log(payload);
 
-    this.store.dispatch(addPatient({ patient: payload }));
+    // this.store.dispatch(addPatient({ patient: payload }));
   }
 }

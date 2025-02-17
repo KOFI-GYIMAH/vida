@@ -181,12 +181,20 @@
       </div>
       <div *ngIf="currentStep === 3" class="space-y-10">
         <div class="card flex justify-content-center">
-          <input
+          <!-- <input
             type="text"
             pInputText
             formControlName="diabeticType"
             class="w-full"
             placeholder="Diabetic Type"
+          /> -->
+          <p-dropdown
+            formControlName="diabeticType"
+            [options]="DiabetesTypes"
+            optionLabel="name"
+            placeholder="Diabetic Type"
+            class="w-full"
+            [style]="{ width: '100%' }"
           />
         </div>
         <div class="card flex justify-content-center">

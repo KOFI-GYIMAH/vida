@@ -1,17 +1,20 @@
 <div class="h-screen bg-white">
   <div class="w-full md:flex flex-col-reverse md:flex-row">
-    <div class="p-8 md:w-[37%] flex flex-col justify-center">
+    <div class="p-8 w-[100%] lg:w-[37%] flex flex-col justify-center h-screen">
       <router-outlet />
     </div>
-    <div class="md:w-[65%] relative">
+
+    <div class="hidden lg:block lg:w-[65%] relative">
       <img src="/assets/image.webp" alt="Login" class="h-screen object-cover" />
       <div
-        class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[75%] md:w-[50%] h-auto p-8 md:p-12 flex flex-col justify-between shadow-lg bg-black/20 backdrop-blur-md rounded-xl"
+        class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[75%] md:w-[65%] h-auto p-8 md:p-12 flex flex-col justify-between shadow-lg bg-black/20 backdrop-blur-md rounded-xl"
       >
         <div
           class="bg-white/20 px-4 py-2 rounded-md inline-block text-sm font-semibold tracking-wide text-white uppercase"
         >
-          Vision Impairment Diagnostic Assistant
+          <a [routerLink]="['/']" class="text-white font-semibold">
+            Vision Impairment Diagnostic Assistant
+          </a>
         </div>
 
         <div class="mt-10">
@@ -32,7 +35,12 @@
 
         <div class="mt-8">
           <p class="text-gray-300">Already have an account?</p>
-          <a href="#" class="text-white font-semibold underline">Sign in</a>
+          <a
+            [routerLink]="['/login']"
+            class="text-white font-semibold underline"
+          >
+            Sign in
+          </a>
         </div>
       </div>
     </div>

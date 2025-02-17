@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AnalysisService } from '@services/analysis.service';
 import { PatientsService } from '@services/patients.service';
@@ -33,11 +33,16 @@ export class RunAnalysisComponent implements OnInit {
   isDraggingLeft = false;
   isDraggingRight = false;
   isProcessing = false;
+  isSavingComment = false;
   uniqueId = uuidv4();
   isAnalysisRun = false;
+  showInferenceCommentDialog = false;
+
+  inferenceComment = '';
 
   @Input() visible: boolean = false;
   @Input() patientId: string = '';
+  @Output() onClose = new EventEmitter<void>();
 
   constructor(
     private analysisService: AnalysisService,
@@ -175,18 +180,18 @@ export class RunAnalysisComponent implements OnInit {
           });
         }
         this.isAnalysisRun = true;
+        this.isProcessing = false;
+        this.showInferenceCommentDialog = true;
       },
       error: (error) => {
-        console.error('Error during analysis:', error);
-      },
-      complete: () => {
         this.isProcessing = false;
+        console.error('Error during analysis:', error);
       },
     });
   }
 
   async submitFinalComments() {
-    this.isProcessing = true;
+    this.isSavingComment = true;
     const allFiles = [
       ...Array.from(this.leftImages.values()),
       ...Array.from(this.rightImages.values()),
@@ -194,35 +199,41 @@ export class RunAnalysisComponent implements OnInit {
 
     const analyzedFiles = allFiles.filter((file) => file.analysis);
 
-    const payloads = analyzedFiles.map((file) => ({
+    // const payloads = analyzedFiles.map((file) => ({
+    //   sessionId: this.uniqueId,
+    //   diagnosis: `${file.analysis?.prediction} (Confidence: ${file.analysis?.confidence}%)`,
+    //   doctorNotes: file.inferenceComment || '',
+    // }));
+    const payload = {
       sessionId: this.uniqueId,
-      diagnosis: `${file.analysis?.prediction} (Confidence: ${file.analysis?.confidence}%)`,
-      doctorNotes: file.inferenceComment || '',
-    }));
+      doctorNotes: this.inferenceComment,
+    };
 
     try {
-      for (const payload of payloads) {
-        const response = await this.patientsService
-          .createMedicalRecord(this.patientId, payload)
-          .toPromise();
+      // for (const payload of payloads) {
+      const response = await this.patientsService
+        .createMedicalRecord(this.patientId, payload)
+        .toPromise();
 
-        if (response && response.responseCode === 200) {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Record created successfully',
-          });
-        } else {
-          console.error(
-            `Failed to create record for sessionId: ${payload.sessionId}`
-          );
-        }
+      if (response && response.responseCode === 200) {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Record created successfully',
+        });
+      } else {
+        console.error(
+          `Failed to create record for sessionId: ${payload.sessionId}`
+        );
       }
+      // }
+      this.onClose.emit();
     } catch (error) {
       console.error('Error submitting records:', error);
     } finally {
-      this.isProcessing = false;
+      this.isSavingComment = false;
       this.visible = false;
+      // this.showInferenceCommentDialog = false;
     }
   }
 }
